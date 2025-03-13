@@ -13,14 +13,17 @@ public class Personaje {
     private int oro;
     private int experiencia;
     private int nivel;
-    public Personaje(String nombre){
+    private String clase;
+    public Personaje(String nombre, String clase){
         this.nombre = nombre;
+        this.clase = clase;
         this.ataque = setAtaque();
         this.defensa = setDefensa();
         this.vida = setVida();
         this.oro = 0;
         this.experiencia = 0;
         this.nivel = 0;
+
     }
 
     public List<Object> datosDelPersonaje(){
@@ -32,25 +35,63 @@ public class Personaje {
         datos.add(oro);
         datos.add(experiencia);
         datos.add(nivel);
+        datos.add(clase);
         return datos;
     }
 
     private int setAtaque(){
-        int classMax = 5;
-        int classMin = 1;
+        int classMax = 5, classMin = 1;
+        switch(clase){
+            case "M":
+                classMin = 2;
+                classMax = 7;
+                break;
+            case "G":
+                classMin = 4;
+                classMax = 9;
+                break;
+            default:
+                classMin = 100;
+                classMax = 500;
+        }
+
         return Dados.dado(classMin,classMax);
     }
 
 
     public int setDefensa() {
-        int classMax = 5;
-        int classMin = 1;
+        int classMax = 5, classMin = 1;
+        switch(clase){
+            case "M":
+                classMin = 5;
+                classMax = 8;
+                break;
+            case "G":
+                classMin = 3;
+                classMax = 6;
+                break;
+            default:
+                classMin = 100;
+                classMax = 500;
+        }
         return Dados.dado(classMin,classMax);
     }
 
     public int setVida() {
-        int classMax = 100;
-        int classMin = 50;
+        int classMax = 5, classMin = 1;
+        switch(clase){
+            case "M":
+                classMin = 50;
+                classMax = 100;
+                break;
+            case "G":
+                classMin = 80;
+                classMax = 120;
+                break;
+            default:
+                classMin = 100;
+                classMax = 500;
+        }
         return Dados.dado(classMin,classMax);
     }
 
