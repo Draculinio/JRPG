@@ -11,12 +11,15 @@ public class Main {
         System.out.print("Ingrese el nombre del personaje: ");
         String nombre = scanner.nextLine();
         String clase = "";
-        while (!clase.equalsIgnoreCase("M") && !clase.equalsIgnoreCase("G")){
-            System.out.print("Elija clase (M/G): ");
-            clase = scanner.nextLine();
-        }
-
-        Personaje personaje = new Personaje(nombre,clase);
+        String raza = "";
+        String sexo = "";
+        System.out.print("Elija clase (M/G/C): ");
+        clase = scanner.nextLine();
+        System.out.print("Elija raza (H/E/B/S): ");
+        raza = scanner.nextLine();
+        System.out.print("Elija sexo (H/M): ");
+        sexo = scanner.nextLine();
+        Personaje personaje = new Personaje(nombre,clase,raza,sexo);
         Mapa mapa1 = new Mapa(1,"Ciudad Esmeralda - Casa", "Esta es la casa humilde del personaje");
         Mapa mapa2 = new Mapa(2, "Ciudad Esmeralda - Portico", "Estas en la puerta de tu casa");
         mapa1.conectar(mapa2);
@@ -26,7 +29,7 @@ public class Main {
         while (!comando.equalsIgnoreCase("salir")){
             System.out.print(">");
             comando = scanner.nextLine();
-            cc.interpretarComando(comando, mapaActual);
+            cc.interpretarComando(comando, mapaActual, personaje);
         }
 
         /*System.out.print(comando);

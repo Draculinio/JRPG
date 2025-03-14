@@ -13,86 +13,64 @@ public class Personaje {
     private int oro;
     private int experiencia;
     private int nivel;
-    private String clase;
-    public Personaje(String nombre, String clase){
+    private  Pclase clase;
+    private Praza raza;
+    private Psexo sexo;
+
+    public Personaje(String nombre, String clase, String raza, String sexo){
+        switch(clase.toUpperCase()){
+            case "G":
+                this.clase = Pclase.GUERRERO;
+                break;
+            case "M":
+                this.clase = Pclase.MAGO;
+                break;
+            case "C":
+                this.clase = Pclase.CAZADOR;
+                break;
+            default:
+                this.clase = Pclase.GUERRERO; //TODO: Y esto?
+        }
+        switch(raza.toUpperCase()){
+            case "H":
+                this.raza = Praza.HUMANO;
+                break;
+            case "E":
+                this.raza = Praza.ELFO;
+                break;
+            case "B":
+                this.raza = Praza.HOBBIT;
+                break;
+            case "S":
+                this.raza = Praza.SEMIELFO;
+                break;
+            default:
+                this.raza = Praza.HUMANO;
+        }
+        this.sexo = (sexo.equalsIgnoreCase("H")) ? Psexo.HOMBRE : Psexo.MUJER;
         this.nombre = nombre;
-        this.clase = clase;
-        this.ataque = setAtaque();
-        this.defensa = setDefensa();
-        this.vida = setVida();
+        this.ataque = Dados.dado(this.clase.getFuerzaMin(),this.clase.getFuerzaMax()) + this.raza.getFuerza() + this.sexo.getFuerza();
+        this.defensa = Dados.dado(this.clase.getDefensaMin(),this.clase.getDefensaMax()) + this.raza.getDefensa() + this.sexo.getDefensa();
+        this.vida = Dados.dado(this.clase.getVidaMin(),this.clase.getVidaMax()) + this.raza.getVida() + this.sexo.getVida();
         this.oro = 0;
         this.experiencia = 0;
-        this.nivel = 0;
-
+        this.nivel = 1;
     }
 
-    public List<Object> datosDelPersonaje(){
-        List<Object> datos = new ArrayList<>();
-        datos.add(nombre);
-        datos.add(ataque);
-        datos.add(defensa);
-        datos.add(vida);
-        datos.add(oro);
-        datos.add(experiencia);
-        datos.add(nivel);
-        datos.add(clase);
-        return datos;
+    public String personajeFormateado(){
+        return String.format("%s-%s-%s-%s A:%d D:%d V:%d O:%d  N:%d(%d)" , this.nombre, this.clase, this.raza, this.sexo, this.ataque, this.defensa, this.vida, this.oro, this.nivel, this.experiencia);
     }
 
-    private int setAtaque(){
-        int classMax = 5, classMin = 1;
-        switch(clase){
-            case "M":
-                classMin = 2;
-                classMax = 7;
-                break;
-            case "G":
-                classMin = 4;
-                classMax = 9;
-                break;
-            default:
-                classMin = 100;
-                classMax = 500;
-        }
-
-        return Dados.dado(classMin,classMax);
+    private void setAtaque(int ataque){
+        this.ataque = ataque;
     }
 
-
-    public int setDefensa() {
-        int classMax = 5, classMin = 1;
-        switch(clase){
-            case "M":
-                classMin = 5;
-                classMax = 8;
-                break;
-            case "G":
-                classMin = 3;
-                classMax = 6;
-                break;
-            default:
-                classMin = 100;
-                classMax = 500;
-        }
-        return Dados.dado(classMin,classMax);
+    public void setDefensa(int defensa) {
+       this.defensa = defensa;
     }
 
-    public int setVida() {
-        int classMax = 5, classMin = 1;
-        switch(clase){
-            case "M":
-                classMin = 50;
-                classMax = 100;
-                break;
-            case "G":
-                classMin = 80;
-                classMax = 120;
-                break;
-            default:
-                classMin = 100;
-                classMax = 500;
-        }
-        return Dados.dado(classMin,classMax);
+    public void setVida(int vida) {
+        this.vida = vida;
     }
 
     public void setOro(int oro) {
