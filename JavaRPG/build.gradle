@@ -1,0 +1,24 @@
+plugins {
+    id 'application'
+}
+
+group = 'org.jrpg'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.openjfx:javafx-controls:21'
+    implementation 'org.openjfx:javafx-fxml:21'
+}
+
+application {
+    mainClass = 'org.jrpg.Main' // Cambia esto por tu clase principal
+}
+
+tasks.named('run') {
+    standardInput = System.in
+}
+
