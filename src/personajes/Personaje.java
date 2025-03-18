@@ -16,6 +16,7 @@ public class Personaje {
     private  Pclase clase;
     private Praza raza;
     private Psexo sexo;
+    private Armas brazo_derecho;
 
     public Personaje(String nombre, String clase, String raza, String sexo){
         switch(clase.toUpperCase()){
@@ -55,6 +56,7 @@ public class Personaje {
         this.oro = 0;
         this.experiencia = 0;
         this.nivel = 1;
+        this.brazo_derecho = Armas.ESPADA_DE_MADERA;
     }
 
     public String personajeFormateado(){
@@ -75,5 +77,14 @@ public class Personaje {
 
     public void setOro(int oro) {
         this.oro = oro;
+    }
+
+    public int atacar(Enemigo e){
+        int resultado =  this.ataque + this.brazo_derecho.getFuerza() + Dados.dado(1,6) - e.getDefensa();
+        return Math.max(resultado, 0); //TODO: Investigar esto
+    }
+
+    public void addExperiencia(int experiencia){
+        this.experiencia += experiencia;
     }
 }
