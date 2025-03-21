@@ -7,7 +7,11 @@
       <sourceFolder url="file://$MODULE_DIR$/../../JavaRPG/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../JavaRPG/src/main/resources" type="java-resource" />
     </content>
-    <orderEntry type="jdk" jdkName="22" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: org.openjfx:javafx-fxml:21" level="project" />
+    <orderEntry type="library" name="Gradle: org.openjfx:javafx-controls:21" level="project" />
+    <orderEntry type="library" name="Gradle: org.openjfx:javafx-graphics:21" level="project" />
+    <orderEntry type="library" name="Gradle: org.openjfx:javafx-base:21" level="project" />
   </component>
 </module>
