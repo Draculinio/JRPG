@@ -1,8 +1,11 @@
+package org.jrpg;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import elementosRoleros.CentralComandos;
+import escenarios.GameOver;
 import escenarios.Mapa;
 import personajes.Enemigo;
 import personajes.Personaje;
@@ -46,6 +49,19 @@ public class Main {
             System.out.print(">");
             comando = scanner.nextLine();
             cc.interpretarComando(comando, mapaActual, personaje);
+            //Una vez que tiro un comando, si hay enemigos en la sala, deben atacarme
+            if (!mapaActual.getEnemigos().isEmpty() && !comando.equalsIgnoreCase("salir")){
+                for (Enemigo enemigo : mapaActual.getEnemigos()) {
+                    int ataque = enemigo.atacar(personaje.getDefensa());
+                    System.out.printf("%s te ataca por %d %n", enemigo.getNombre(), ataque);
+                    personaje.setVida(personaje.getVida() - ataque);
+                    if(personaje.getVida() <= 0){
+                        GameOver.showGameOver();
+                        comando = "salir";
+                        break;
+                    }
+                }
+            }
         }
     }
 }

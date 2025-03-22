@@ -4,7 +4,6 @@ import escenarios.Mapa;
 import personajes.Enemigo;
 import personajes.Personaje;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CentralComandos {

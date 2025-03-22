@@ -1,7 +1,4 @@
 package personajes;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.List;
 
 import elementosRoleros.Dados;
 
@@ -67,13 +64,19 @@ public class Personaje {
         this.ataque = ataque;
     }
 
-    public void setDefensa(int defensa) {
-       this.defensa = defensa;
+    private void setDefensa(int defensa)
+    {this.defensa = defensa;}
+
+    public int getDefensa() {
+        //TODO: Dados.dado tiene que tener un factor basado en clase/raza/armas/etc
+       return this.defensa = defensa + this.brazo_derecho.getDefensa() + Dados.dado(1,5);
     }
 
     public void setVida(int vida) {
         this.vida = vida;
     }
+
+    public int getVida(){ return this.vida; }
 
     public void setOro(int oro) {
         this.oro = oro;
