@@ -1,0 +1,29 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.14'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.openjfx:javafx-controls:22'
+    implementation 'org.openjfx:javafx-fxml:22'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    // Agrega otros módulos de JavaFX que necesites
+}
+
+application {
+    mainClass = 'org.jrpg.Main' // Reemplaza con tu clase principal
+}
+
+javafx {
+    version = "22" // Especifica la versión de JavaFX
+    modules = [ 'javafx.controls', 'javafx.fxml' ] // Lista los módulos que utilizas
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
