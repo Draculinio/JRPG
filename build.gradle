@@ -10,20 +10,23 @@ repositories {
 dependencies {
     implementation 'org.openjfx:javafx-controls:22'
     implementation 'org.openjfx:javafx-fxml:22'
-    compileOnly 'org.projectlombok:lombok:1.18.20'
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
-    // Agrega otros módulos de JavaFX que necesites
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+    implementation 'org.json:json:20250107'
 }
 
 application {
-    mainClass = 'org.jrpg.Main' // Reemplaza con tu clase principal
+    mainClass = 'org.jrpg.Main'
 }
 
 javafx {
-    version = "22" // Especifica la versión de JavaFX
-    modules = [ 'javafx.controls', 'javafx.fxml' ] // Lista los módulos que utilizas
+    version = "22"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+
+//Java 22.0.1

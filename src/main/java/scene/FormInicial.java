@@ -72,7 +72,7 @@ public class FormInicial {
         nombresDefault.addAll(Arrays.asList("Rigoberto", "Camila", "Sofía", "David"));
         Label nombreLabel = new Label("Nombre:");
         this.nombreTextField = new TextField();
-        nombreTextField.setText(nombresDefault.get(Dados.dado(0,nombresDefault.size())));
+        nombreTextField.setText(nombresDefault.get(Dados.dado(0,nombresDefault.size()-1)));
         Label claseLabel = new Label("Clase:");
         ObservableList<String> clases = FXCollections.observableArrayList("Guerrero", "Mago", "Cazador");
         this.claseComboBox = new ComboBox<>(clases);

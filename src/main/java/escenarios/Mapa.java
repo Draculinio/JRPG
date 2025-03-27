@@ -1,55 +1,47 @@
 package escenarios;
 
+import elementosRoleros.ObtenerDatos;
+import lombok.Getter;
+import org.json.JSONObject;
 import personajes.Enemigo;
+import personajes.Personaje;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Mapa {
-    private int mapaID;
+    private String mapaID;
+    @Getter
     private String nombre;
+    @Getter
     private String descripcion;
     private List<Mapa> conexiones;
+    @Getter
     private List<Enemigo> enemigos;
     private String imagen;
-    public Mapa(int mapaID, String nombre, String descripcion, String imagen){
+    @Getter
+    private Personaje personaje;
+
+    public Mapa(String mapaID, String nombre, String imagen, Personaje personaje){
         this.mapaID = mapaID;
         this.nombre = nombre;
-        this.descripcion = descripcion;
         this.conexiones = new ArrayList<>();
         this.enemigos = new ArrayList<>();
         this.imagen = imagen;
+        ObtenerDatos od = new ObtenerDatos();
+        JSONObject habitaciones = od.cargarHabitaciones("datos_habitaciones");
+        JSONObject habitacion = habitaciones.getJSONObject(this.mapaID);
+        this.descripcion = habitacion.getString("descripcion");
+        this.personaje = personaje;
     }
 
     public List<Mapa> getConexiones(){
         return conexiones;
     }
 
-    public String getNombre(){
-        return nombre;
-    }
-
-    public String describir(){
-        StringBuilder str = new StringBuilder();
-        str.append(this.nombre);
-        str.append("\n");
-        str.append(this.descripcion);
-        if (!this.enemigos.isEmpty()) {
-            str.append("Enemigos: \n");
-            for(Enemigo e : this.enemigos){str.append(e.getNombre());
-                str.append("\n");
-            }
-        }
-        return str.toString();
-    }
-
     public void conectar(Mapa otroMapa){
         this.conexiones.add(otroMapa);
         otroMapa.conexiones.add(this);
-    }
-
-    public List<Enemigo> getEnemigos() {
-        return enemigos;
     }
 
     public void setEnemigo(Enemigo enemigo){
@@ -64,7 +56,4 @@ public class Mapa {
         return imagen;
     }
 
-    public String getDescripcion(){
-        return this.descripcion;
-    }
 }

@@ -11,12 +11,16 @@ import scene.FormInicial;
 public class Main extends  Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FormInicial formInicial = new FormInicial();
-        Scene scene = formInicial.pantallaFormulario(primaryStage);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("JavaQuest");
-        //primaryStage.setMaximized(true);
-        primaryStage.show();
+        try {
+            FormInicial formInicial = new FormInicial();
+            Scene scene = formInicial.pantallaFormulario(primaryStage);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("JavaQuest");
+            primaryStage.show();
+        } catch(RuntimeException e) {
+            e.printStackTrace();
+        }
+
     }
     public static void main(String[] args) {
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text

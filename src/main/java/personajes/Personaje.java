@@ -46,7 +46,7 @@ public class Personaje {
     }
 
     public void setOro(int oro) {
-        this.oro = oro;
+        this.oro += oro;
     }
 
     public int atacar(Enemigo e){
