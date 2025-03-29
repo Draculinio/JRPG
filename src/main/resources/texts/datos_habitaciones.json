@@ -1,10 +1,23 @@
 {
   "1": {
     "descripcion": "Te encuentras en el umbral de tu hogar, un refugio de piedra que se alza como un monumento al tiempo.\n Aunque modesta en tamaño, cada rincón irradia una calidez que solo un hogar verdadero puede ofrecer.\n Las generaciones pasadas, con manos curtidas y corazones llenos de esperanza, levantaron estas paredes de piedra sólida, imbuidas de la historia de tu familia.\n Al pasar la mano por las piedras labradas, sientes el eco de sus vidas, sus susurros convertidos en secretos que se entrelazan con la madera envejecida y el aroma a hogar.\n Este no es solo un lugar, es un legado, un refugio donde la historia y la vida cotidiana se funden en una danza eterna.",
-    "description": "You stand at the threshold of your home, a stone refuge that rises like a monument to time.\n Though modest in size, every corner radiates a warmth that only a true home can offer.\n Past generations, with calloused hands and hearts full of hope, raised these walls of solid stone, imbued with the history of your family.\n As you run your hand along the carved stones, you feel the echo of their lives, their whispers turned into secrets that intertwine with the aged wood and the scent of hearth and home.\n This is not just a place, it's a legacy, a sanctuary where history and everyday life merge in an eternal dance."
+    "description": "You stand at the threshold of your home, a stone refuge that rises like a monument to time.\n Though modest in size, every corner radiates a warmth that only a true home can offer.\n Past generations, with calloused hands and hearts full of hope, raised these walls of solid stone, imbued with the history of your family.\n As you run your hand along the carved stones, you feel the echo of their lives, their whispers turned into secrets that intertwine with the aged wood and the scent of hearth and home.\n This is not just a place, it's a legacy, a sanctuary where history and everyday life merge in an eternal dance.",
+    "nombre": "Casa",
+    "name": "Emerald City - House",
+    "image": "interior_casa.jpg"
   },
   "2": {
-    "descripcion": "Llegaste a un pasillo iluminado. Hay puertas al este y al oeste.",
-    "description": "Lorem Ipsum"
+    "descripcion": "Al salir de la casa, te recibe el aire fresco del campo. El paisaje se extiende ante ti, \nuna mezcla de familiaridad y serenidad. Las casas vecinas, dispersas entre campos verdes y pequeñas colinas,\n te saludan con sus techos de tejas rojizas. Un camino de piedra, cuidado y antiguo, serpentea de norte a sur, invitándote a explorar.\n Las flores silvestres bordean el sendero, y el canto de los pájaros llena el aire, creando una sinfonía de la naturaleza.\n El sol baña el paisaje con una luz dorada, resaltando la belleza simple de este rincón rural.",
+    "description": "As you step out of the house, the fresh country air greets you. The landscape stretches before you,\n a blend of familiarity and serenity. Neighboring houses, scattered among green fields and small hills,\n welcome you with their reddish tile roofs. An ancient, well-kept stone path winds its way from north to south,\n beckoning you to explore. Wildflowers line the path, and the birdsong fills the air, creating a symphony of nature. The sun bathes the landscape in a golden light,\n highlighting the simple beauty of this rural corner.",
+    "nombre": "Portico",
+    "name": "Emerald City - Gateway",
+    "image": "portico.jpg"
+  },
+  "3": {
+    "descripcion": "Lorem Ipsum",
+    "description": "Lorem Ipsum pero en inglish",
+    "nombre": "TODO",
+    "name": "Emerald City - TODO",
+    "image": "portico.jpg"
   }
 }

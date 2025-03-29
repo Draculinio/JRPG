@@ -22,6 +22,7 @@ import personajes.Personaje;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Escenario {
     private List<Image> enemyImages;
@@ -29,14 +30,21 @@ public class Escenario {
     private Personaje personaje;
     private Mapa mapa1;
     private Mapa mapa2;
+    private Mapa mapa3;
     private Mapa mapaActual;
     private TextField textField;
     private Label resultadoComando;
+    private Scene scene;
+    private StackPane descripcion;
+    private StackPane escena;
+
     public Escenario(Personaje personaje){
         this.personaje = personaje;
-        mapa1 = new Mapa("1","Ciudad Esmeralda - Casa", "interior_casa.jpg", this.personaje);
-        mapa2 = new Mapa("2", "Ciudad Esmeralda - Portico",  "portico.jpg", this.personaje);
+        mapa1 = new Mapa("1", this.personaje);
+        mapa2 = new Mapa("2", this.personaje);
+        mapa3 = new Mapa("3", this.personaje);
         mapa1.conectar(mapa2);
+        mapa2.conectar(mapa3);
         List<Enemigo> nuevosEnemigos = new ArrayList<>(Arrays.asList(
                 new Enemigo("ZOMBIE"),
                 new Enemigo("ZOMBIE"),
@@ -49,36 +57,37 @@ public class Escenario {
     }
 
     public Scene crearEscenario(Stage primaryStage) {
-        StackPane escena = zonaEscena();
-        StackPane descripcion = zonaDescripcion();
+        escena = zonaEscena();
+        descripcion = zonaDescripcion();
         StackPane comandos = zonaComandos();
         StackPane personaje = zonaPersonaje();
         Button iniciarJuegoButton = (Button) comandos.lookup("#enviarComando");
         iniciarJuegoButton.setOnAction(event -> {
             InterpreteComandos ic = new InterpreteComandos();
-            String resultadoComando = ic.manejarInstrucciones(this.textField.getText(), this.mapaActual);
-            if(resultadoComando.contains("muere")){
-                //TODO: Devolver lista actualizada de enemigos.
-
-                actualizarEnemyImageViews();
-                Platform.runLater(() -> actualizarGridPaneEnemigos(escena)); // entender que es Platform.runLater
-
+            this.mapaActual = ic.manejarInstrucciones(this.textField.getText(), this.mapaActual);
+            actualizarEnemyImageViews();
+            if(this.textField.getText().toUpperCase().contains("ATACAR")){
+                Platform.runLater(() -> actualizarGridPaneEnemigos(escena));// entender que es Platform.runLater
             }
-            this.resultadoComando.setText(resultadoComando);
+            if(this.textField.getText().toUpperCase().contains("IR")){
+                actualizarZonaEscena();
+                actualizarZonaDescripcion();
+            }
+            this.resultadoComando.setText(this.mapaActual.getMensaje());
         });
         VBox root = new VBox(personaje, escena, descripcion, comandos);
         root.setSpacing(10);
-        Scene scene = new Scene(root, 800, 600);
+        this.scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
-        return scene;
+        return this.scene;
     }
 
     private StackPane zonaEscena(){
         Label titulo = new Label(mapaActual.getNombre());
         titulo.setStyle("-fx-font-size: 24px;");
 
-        Image image = new Image(getClass().getResourceAsStream("/images/"+mapaActual.getImagen()));
+        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/" + mapaActual.getImagen())));
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(700);
         imageView.setFitHeight(408);
@@ -175,7 +184,9 @@ public class Escenario {
         return new StackPane(rectangle,label);
     }
 
-    private void actualizarEnemyImageViews() { //TODO: Todo esto es codigo duplicado, simplificar
+
+    //Actualizacion de enemigos TODO: Simplificar, es una porqueria todo esto
+    private void actualizarEnemyImageViews() {
         this.enemyImageViews.clear();
         for (int i = 0; i < mapaActual.getEnemigos().size(); i++) {
             enemyImages.add(new Image(getClass().getResourceAsStream("/images/"+mapaActual.getEnemigos().get(i).getNombre()+".jpg")));
@@ -190,16 +201,9 @@ public class Escenario {
         }
     }
 
-    private void redibujarEnemigos(StackPane stackPane) {
-        // Limpia los ImageView de enemigos existentes del StackPane
-        stackPane.getChildren().removeIf(node -> node instanceof ImageView);
-
-        // Vuelve a agregar los ImageView actualizados
-        stackPane.getChildren().addAll(enemyImageViews);
-    }
 
     private void actualizarGridPaneEnemigos(StackPane stackPane) {
-        // Encuentra el GridPane de enemigos en el StackPane y actualízalo
+
         HBox representacion = (HBox) stackPane.getChildren().get(0);
         GridPane gridPaneEnemigos = (GridPane) representacion.getChildren().get(1);
         gridPaneEnemigos.getChildren().clear();
@@ -217,7 +221,6 @@ public class Escenario {
             imageView.setFitHeight(175);
             enemyImageViews.add(imageView);
         }
-
         // Vuelve a agregar los ImageView al GridPane
         Label labelEnemigos = new Label("Enemigos");
         labelEnemigos.setStyle("-fx-font-size: 24px;");
@@ -234,18 +237,34 @@ public class Escenario {
         }
     }
 
+    private void actualizarZonaEscena() {
+        escena.getChildren().clear();
 
-    /*
-    private void actualizarGridPaneEnemigos(StackPane stackPane) {
-    // Encuentra el GridPane de enemigos en el StackPane y actualízalo
-    HBox representacion = (HBox) stackPane.getChildren().get(0); // Suponiendo que representacion es el primer hijo
-    GridPane gridPaneEnemigos = (GridPane) representacion.getChildren().get(1); // Suponiendo que el GridPane es el segundo hijo
-    gridPaneEnemigos.getChildren().clear(); // Limpia el GridPane
+        Label titulo = new Label(mapaActual.getNombre());
+        titulo.setStyle("-fx-font-size: 24px;");
 
-    // Vuelve a crear el GridPane con los enemigos actualizados
-    GridPane nuevoGridPane = crearGridPaneEnemigos();
-    representacion.getChildren().set(1, nuevoGridPane); // Reemplaza el GridPane antiguo con el nuevo
-}
+        Image image = new Image(getClass().getResourceAsStream("/images/" + mapaActual.getImagen()));
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(700);
+        imageView.setFitHeight(408);
+        imageView.setPreserveRatio(true);
 
-    */
+        VBox zonaEscenaVBox = new VBox(titulo, imageView);
+        StackPane imagenMapa = new StackPane(zonaEscenaVBox);
+
+        GridPane enemigos = gridEnemigos();
+
+        HBox representacion = new HBox(imagenMapa, enemigos);
+        representacion.setAlignment(Pos.CENTER_RIGHT);
+
+        escena.getChildren().add(representacion);
+    }
+
+    private void actualizarZonaDescripcion(){
+        descripcion.getChildren().clear();
+        Label desc = new Label(this.mapaActual.getDescripcion());
+        desc.setStyle("-fx-font-size: 18px; -fx-border-color: black; -fx-border-width: 2px; -fx-background-color: lightgray; -fx-padding: 5px;");
+        desc.setMaxWidth(Double.MAX_VALUE);
+        descripcion.getChildren().add(desc);
+    }
 }

@@ -2,6 +2,7 @@ package escenarios;
 
 import elementosRoleros.ObtenerDatos;
 import lombok.Getter;
+import lombok.Setter;
 import org.json.JSONObject;
 import personajes.Enemigo;
 import personajes.Personaje;
@@ -18,21 +19,25 @@ public class Mapa {
     private List<Mapa> conexiones;
     @Getter
     private List<Enemigo> enemigos;
+    @Getter
     private String imagen;
     @Getter
     private Personaje personaje;
+    @Getter
+    private String mensaje;
 
-    public Mapa(String mapaID, String nombre, String imagen, Personaje personaje){
+    public Mapa(String mapaID, Personaje personaje){
         this.mapaID = mapaID;
-        this.nombre = nombre;
         this.conexiones = new ArrayList<>();
         this.enemigos = new ArrayList<>();
-        this.imagen = imagen;
         ObtenerDatos od = new ObtenerDatos();
         JSONObject habitaciones = od.cargarHabitaciones("datos_habitaciones");
         JSONObject habitacion = habitaciones.getJSONObject(this.mapaID);
         this.descripcion = habitacion.getString("descripcion");
+        this.nombre = habitacion.getString("nombre");
+        this.imagen = habitacion.getString("image");
         this.personaje = personaje;
+        this.mensaje = "";
     }
 
     public List<Mapa> getConexiones(){
@@ -52,8 +57,8 @@ public class Mapa {
         this.enemigos.addAll(nuevosEnemigos);
     }
 
-    public String getImagen() {
-        return imagen;
+    public void setMensaje(String mensaje){
+        this.mensaje = "";
+        this.mensaje = mensaje;
     }
-
 }
