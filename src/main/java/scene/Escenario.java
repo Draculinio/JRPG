@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -26,6 +27,7 @@ import java.util.Objects;
 
 public class Escenario {
     private List<Image> enemyImages;
+    private List<Tooltip> enemyTooltip;
     private List<ImageView> enemyImageViews;
     private Personaje personaje;
     private Mapa mapa1;
@@ -61,8 +63,10 @@ public class Escenario {
         descripcion = zonaDescripcion();
         StackPane comandos = zonaComandos();
         StackPane personaje = zonaPersonaje();
-        Button iniciarJuegoButton = (Button) comandos.lookup("#enviarComando");
-        iniciarJuegoButton.setOnAction(event -> {
+        Button enviarComando = (Button) comandos.lookup("#enviarComando");
+        TextField comando = (TextField) comandos.lookup("#comando") ;
+        comando.setOnAction(event -> {enviarComando.fire();});
+        enviarComando.setOnAction(event -> {
             InterpreteComandos ic = new InterpreteComandos();
             this.mapaActual = ic.manejarInstrucciones(this.textField.getText(), this.mapaActual);
             actualizarEnemyImageViews();
@@ -119,12 +123,17 @@ public class Escenario {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         this.enemyImages = new ArrayList<>();
+        this.enemyTooltip = new ArrayList<>();
         this.enemyImageViews = new ArrayList<>();
-        for (int i = 0; i < mapaActual.getEnemigos().size(); i++) { //TODO: Despues esto tiene que cambiar porque es variable y se toma del mapa
-            enemyImages.add(new Image(getClass().getResourceAsStream("/images/"+mapaActual.getEnemigos().get(i).getNombre()+".jpg")));
+        for (int i = 0; i < mapaActual.getEnemigos().size(); i++) {
+            enemyImages.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/" + mapaActual.getEnemigos().get(i).getNombre() + ".jpg"))));
+            enemyTooltip.add(new Tooltip(mapaActual.getEnemigos().get(i).getNombre()));
         }
         for (Image imageE : enemyImages) {
             enemyImageViews.add(new ImageView(imageE));
+        }
+        for (int i = 0;i<enemyImageViews.size();i++){
+            Tooltip.install(enemyImageViews.get(i), enemyTooltip.get(i));
         }
 
         for (ImageView iv : enemyImageViews){
@@ -156,6 +165,7 @@ public class Escenario {
         Label label = new Label();
         label.setText("Comando:");
         this.textField = new TextField();
+        this.textField.setId("comando");
         Button enviar = new Button("Enviar");
         enviar.setId("enviarComando");
         HBox hbox = new HBox(label, textField, enviar);
