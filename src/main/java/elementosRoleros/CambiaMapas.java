@@ -59,4 +59,13 @@ public class CambiaMapas {
         for(Mapa conexion : mapa.getConexiones()) mapa.setMensaje(mapa.getMensaje() + conexion.getNombre() + "\n");
         return mapa;
     }
+
+    public Mapa recibirAtaque(Mapa mapa){
+        int defensa = mapa.getPersonaje().getDefensa();
+        for(Enemigo enemigo: mapa.getEnemigos()){
+            mapa.getPersonaje().setVida(mapa.getPersonaje().getVida()-(enemigo.getFuerza()-defensa));
+            mapa.setMensaje(mapa.getMensaje()+enemigo.getNombre()+" te ha golpeado por "+enemigo.getFuerza()+"\n");
+        }
+        return mapa;
+    }
 }

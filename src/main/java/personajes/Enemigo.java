@@ -11,8 +11,12 @@ public class Enemigo {
     private int vida;
     @Getter
     private int fuerza;
+    @Getter
+    @Setter
     private int defensa;
+    @Getter
     private int experiencia;
+    @Getter
     private StatsEnemigos stats;
     @Getter
     private int oro;
@@ -23,23 +27,12 @@ public class Enemigo {
         this.vida = this.stats.getVida();
         this.experiencia = this.stats.getExperiencia();
         this.oro = this.stats.getOro();
+        this.fuerza = this.stats.getFuerza();
     }
 
 
     public void setFuerza(int fuerza) {
         this.fuerza = fuerza;
-    }
-
-    public int getDefensa() {
-        return defensa;
-    }
-
-    public void setDefensa(int defensa) {
-        this.defensa = defensa;
-    }
-
-    public int getExperiencia() {
-        return experiencia;
     }
 
 }

@@ -1,17 +1,26 @@
 package personajes;
 
 import elementosRoleros.Dados;
+import lombok.Getter;
 
 public class Personaje {
     private String nombre;
     private int ataque;
+    @Getter
     private int defensa;
+    @Getter
     private int vida;
+    @Getter
     private int oro;
+    @Getter
     private int experiencia;
+    @Getter
     private int nivel;
+    @Getter
     private  Pclase clase;
+    @Getter
     private Praza raza;
+    @Getter
     private Psexo sexo;
     private Armas brazo_derecho;
 

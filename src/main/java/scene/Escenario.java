@@ -1,4 +1,5 @@
 package scene;
+import elementosRoleros.CambiaMapas;
 import elementosRoleros.InterpreteComandos;
 import escenarios.Mapa;
 import javafx.application.Platform;
@@ -20,6 +21,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import personajes.Enemigo;
 import personajes.Personaje;
+
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -72,6 +75,11 @@ public class Escenario {
             actualizarEnemyImageViews();
             if(this.textField.getText().toUpperCase().contains("ATACAR")){
                 Platform.runLater(() -> actualizarGridPaneEnemigos(escena));// entender que es Platform.runLater
+                if(!this.mapaActual.getEnemigos().isEmpty()){
+                    CambiaMapas cm = new CambiaMapas();
+                    this.mapaActual = cm.recibirAtaque(this.mapaActual);
+                    //TODO: Hacer la muerte del personaje si su vida es menor a cero
+                }
             }
             if(this.textField.getText().toUpperCase().contains("IR")){
                 actualizarZonaEscena();
@@ -90,7 +98,7 @@ public class Escenario {
     private StackPane zonaEscena(){
         Label titulo = new Label(mapaActual.getNombre());
         titulo.setStyle("-fx-font-size: 24px;");
-
+        //TODO: Refactor, cada parte de la zona tiene que tener su propio metodo
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/" + mapaActual.getImagen())));
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(700);
@@ -101,13 +109,29 @@ public class Escenario {
 
         //ENEMIGOS
         GridPane enemigos = gridEnemigos();
-
-        HBox representacion = new HBox(imagenMapa, enemigos);
+        ImageView bp = botonPersonaje();
+        HBox representacion = new HBox(bp,imagenMapa, enemigos);
+        representacion.setSpacing(20);
         representacion.setAlignment(Pos.CENTER_RIGHT);
 
         return new StackPane(representacion);
     }
 
+    private ImageView botonPersonaje(){
+        Image personaje;
+        String rutaImagen = "/images/" + this.mapaActual.getPersonaje().getClase()+ "_" + this.mapaActual.getPersonaje().getRaza() + "_" + this.mapaActual.getPersonaje().getSexo() + ".jpg";
+        InputStream imagenStream = getClass().getResourceAsStream(rutaImagen);
+        if (imagenStream == null) {
+            // Si la imagen no existe, cargar una imagen genérica
+            imagenStream = getClass().getResourceAsStream("/images/generica.jpg");
+        }
+        personaje = new Image(Objects.requireNonNull(imagenStream));
+        ImageView iv = new ImageView(personaje);
+        iv.setFitWidth(200);
+        iv.setFitHeight(117);
+        iv.setPreserveRatio(true);
+        return iv;
+    }
     private GridPane gridEnemigos(){
 
         Label labelEnemigos = new Label("Enemigos");
