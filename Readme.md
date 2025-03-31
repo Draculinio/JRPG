@@ -10,14 +10,20 @@ Para obligarme a hacer este proyecto me puse a streamear casi a diario en Twitch
 
 La idea es también en lo posible usar solo Java (para el manejo de librerias uso Gradle) y tratar de exprimir y aprender todo lo posible de el.
 
-## Reglas de codigo
+## Consideraciones de arquitectura
+
+### Reglas de codigo
 * Puedo usar inteligencia artificial, pero solo como apoyo, para aprender nuevos conceptos o como funciona una libreria, nunca dejarme guiar ciegamente por la misma.
 * El juego no tiene un rumbo fijo, pero sí una idea de lo que va a ser por lo que los refactor pueden ser comunes.
 
-## Librerias usadas en el juego
+### Librerias usadas en el juego
 
 * JavaFX
 * Lombok
+
+###  Arquitectura general del juego
+
+![Principio de modificacion de mapas](map_modifier.png)
 
 ## Sobre el mundo de Java
 
