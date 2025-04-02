@@ -14,10 +14,10 @@
     "image": "portico.jpg"
   },
   "3": {
-    "descripcion": "Lorem Ipsum",
-    "description": "Lorem Ipsum pero en inglish",
-    "nombre": "TODO",
-    "name": "Emerald City - TODO",
+    "descripcion": "El Camino de Piedra Este se extiende ante ti, un sendero serpenteante que promete llevarte al \ncorazón de la ciudad. Las piedras, desgastadas por el tiempo y el paso de innumerables viajeros, brillan \ncon una suave luz dorada bajo el sol. A ambos lados del camino, campos verdes y floridos se extienden hasta donde alcanza la vista, \nsalpicados de pequeñas casas de techo rojo que parecen saludar al viajero. A lo lejos, puedes vislumbrar otro camino de piedra,\n un hermano gemelo que se une a este en el centro de la ciudad, creando una red de senderos \nque invitan a la exploración. El aire está lleno del canto de los pájaros y el zumbido de los insectos, \ncreando una sinfonía natural que te acompaña en tu viaje.",
+    "description": "The East Stone Path stretches before you, a winding trail promising to lead you to the heart of\n the city. The stones, worn by time and the passage of countless travelers, gleam with a soft golden light\n under the sun. On either side of the path, green and flowery fields extend as far as the eye can see, dotted with small red-roofed\n houses that seem to greet the traveler. In the distance, you can glimpse another stone path, a twin that joins this one in the\n city center, creating a network of trails that invite exploration. The air is filled with\n the song of birds and the buzz of insects, creating a natural symphony that accompanies you on your journey.",
+    "nombre": "Camino de Piedra Este",
+    "name": "East Stone Path",
     "image": "portico.jpg"
   }
 }

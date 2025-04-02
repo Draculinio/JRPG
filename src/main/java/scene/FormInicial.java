@@ -45,7 +45,7 @@ public class FormInicial {
         Button iniciarJuegoButton = (Button) formulario.lookup("#iniciarJuego");
         iniciarJuegoButton.setOnAction(_ -> {
             Escenario escenario = new Escenario(new Personaje(nombreTextField.getText(), claseComboBox.getValue(), razaComboBox.getValue(), sexoComboBox.getValue()));
-            primaryStage.setScene(escenario.crearEscenario(primaryStage));
+            primaryStage.setScene(escenario.principalSceneCreation(primaryStage));
         });
         ComboBox razaCombo = (ComboBox) formulario.lookup("#raza");
         ComboBox claseCombo = (ComboBox) formulario.lookup("#clase");
