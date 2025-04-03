@@ -1,7 +1,7 @@
 package personajes;
 
 public enum StatsEnemigos {
-    ZOMBIE(5,3,1,2, 50);
+    ZOMBIE(500,3,1,2, 50);
 
     private int fuerza;
     private int defensa;

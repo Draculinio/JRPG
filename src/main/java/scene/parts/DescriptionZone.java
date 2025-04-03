@@ -13,8 +13,6 @@ public class DescriptionZone {
     }
     public StackPane descriptionStackPane(Mapa mapa){
         this.desc.setText(mapa.getDescripcion());
-        //Label desc = new Label(mapa.getDescripcion());
-
         return new StackPane(desc);
     }
 
