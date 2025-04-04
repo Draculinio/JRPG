@@ -4,9 +4,8 @@ import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import scene.FormInicial;
+import scene.InitialForm;
 
-import java.awt.*;
 import java.util.Objects;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -15,8 +14,8 @@ public class Main extends  Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-            FormInicial formInicial = new FormInicial();
-            Scene scene = formInicial.pantallaFormulario(primaryStage);
+            InitialForm initialForm = new InitialForm();
+            Scene scene = initialForm.pantallaFormulario(primaryStage);
             primaryStage.setScene(scene);
             primaryStage.setTitle("JavaQuest");
             Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/logo1.jpg")));

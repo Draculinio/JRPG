@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -18,17 +19,16 @@ import personajes.Personaje;
 
 import java.io.InputStream;
 import java.util.*;
-import java.util.stream.Stream;
 
-public class FormInicial {
+public class InitialForm {
     private Image personajeImage;
-    private ImageView ivPersonaje;
+    private final ImageView ivPersonaje;
     private TextField nombreTextField;
     private ComboBox<String> claseComboBox;
     private ComboBox<String> razaComboBox;
     private ComboBox<String> sexoComboBox;
 
-    public FormInicial() {
+    public InitialForm() {
         this.ivPersonaje = new ImageView();
         this.ivPersonaje.setFitWidth(200);
         this.ivPersonaje.setFitHeight(117);
@@ -36,24 +36,36 @@ public class FormInicial {
 
     }
     public Scene pantallaFormulario(Stage primaryStage) {
-        StackPane formulario = formulario();
+        StackPane form = formulario();
         StackPane logotipo = logotipo();
-        VBox root = new VBox(logotipo, formulario);
+        VBox root = new VBox(logotipo, form);
         root.setSpacing(10);
         root.setAlignment(Pos.CENTER);
-
-        Button iniciarJuegoButton = (Button) formulario.lookup("#iniciarJuego");
-        iniciarJuegoButton.setOnAction(_ -> {
-            Escenario escenario = new Escenario(new Personaje(nombreTextField.getText(), claseComboBox.getValue(), razaComboBox.getValue(), sexoComboBox.getValue()));
-            primaryStage.setScene(escenario.principalSceneCreation(primaryStage));
-        });
-        ComboBox razaCombo = (ComboBox) formulario.lookup("#raza");
-        ComboBox claseCombo = (ComboBox) formulario.lookup("#clase");
-        ComboBox sexoCombo = (ComboBox) formulario.lookup("#sexo");
-        //razaCombo.setOnAction(  _ ->{actualizar_player();});
-        //claseCombo.setOnAction( _ ->{actualizar_player();});
-        //sexoCombo.setOnAction( _->{actualizar_player();});
-        Stream.of(razaCombo, claseCombo, sexoCombo).forEach(combo -> combo.setOnAction(_ -> actualizar_player()));
+        Node node = form.lookup("#iniciarJuego");
+        if(node instanceof Button initGameButton){
+            initGameButton.setOnAction(_ -> {
+                Escenario escenario = new Escenario(new Personaje(nombreTextField.getText(), claseComboBox.getValue(), razaComboBox.getValue(), sexoComboBox.getValue()));
+                primaryStage.setScene(escenario.principalSceneCreation(primaryStage));
+            });
+        }
+        node = form.lookup("#raza");
+        if(node instanceof ComboBox) {
+            @SuppressWarnings("unchecked")
+            ComboBox<String> razaCombo = (ComboBox<String>) node;
+            razaCombo.setOnAction(_ -> actualizar_player());
+        }
+        node = form.lookup("#clase");
+        if(node instanceof ComboBox) {
+            @SuppressWarnings("unchecked")
+            ComboBox<String> claseCombo = (ComboBox<String>) node;
+            claseCombo.setOnAction(_ -> actualizar_player());
+        }
+        node = form.lookup("#sexo");
+        if(node instanceof ComboBox) {
+            @SuppressWarnings("unchecked")
+            ComboBox<String> sexoCombo = (ComboBox<String>) node;
+            sexoCombo.setOnAction(_ -> actualizar_player());
+        }
 
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
@@ -162,5 +174,3 @@ public class FormInicial {
         ivPersonaje.setImage(this.personajeImage);
     }
 }
-
-
