@@ -60,7 +60,7 @@ public class GameScenario {
         this.mapaActual = mapa1;
     }
 
-    public Scene principalSceneCreation(Stage primaryStage) {
+    public Scene principalSceneCreation(Stage primaryStage) throws IOException {
         descriptionZone.descriptionStackPane(this.mapaActual);
         StackPane commands = commandsZone.generateCommandsZone();
         Button enviarComando = (Button) commands.lookup("#sendCommand");

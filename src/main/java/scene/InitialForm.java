@@ -17,6 +17,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import personajes.Character;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
@@ -45,7 +46,11 @@ public class InitialForm {
         if(node instanceof Button initGameButton){
             initGameButton.setOnAction(_ -> {
                 GameScenario gameScenario = new GameScenario(new Character(nombreTextField.getText(), claseComboBox.getValue(), razaComboBox.getValue(), sexoComboBox.getValue()));
-                primaryStage.setScene(gameScenario.principalSceneCreation(primaryStage));
+                try {
+                    primaryStage.setScene(gameScenario.principalSceneCreation(primaryStage));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             });
         }
         node = form.lookup("#raza");

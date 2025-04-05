@@ -29,5 +29,11 @@ La idea es también en lo posible usar solo Java (para el manejo de librerias us
 
 ![Mapa de la ciudad de ArrayList](mapa.png)
 
+## Comandos implementados:
+
+* atacar [enemigo]
+* salidas
+* ir [lugar]
+
 ## Consideraciones finales
 Sera esto un juego real y comercial en el futuro? Solo D-s sabe.

@@ -26,8 +26,6 @@ public class SceneZone {
     public StackPane generateSceneStackPane(Mapa mapa) {
         Label titulo = new Label(mapa.getNombre());
         titulo.setStyle("-fx-font-size: 24px;");
-
-        //ImageView imageView = cargarImagen(mapa.getImagen(), 700, 408);
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/" + mapa.getImagen())));
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(700);
@@ -35,16 +33,22 @@ public class SceneZone {
         imageView.setPreserveRatio(true);
         VBox zonaEscenaVBox = new VBox(titulo, imageView);
         StackPane imagenMapa = new StackPane(zonaEscenaVBox);
-
+        StackPane.setAlignment(imagenMapa, Pos.CENTER);
         // Enemigos y personaje
-        GridPane enemigos = gridEnemigos(mapa);
+        GridPane enemyGridPane = gridEnemigos(mapa);
+        enemyGridPane.setPadding(new Insets(0, 0, 0, 20));
         ImageView bp = botonPersonaje(mapa);
+        VBox personajeBox = new VBox(botonPersonaje(mapa));
+        personajeBox.setAlignment(Pos.CENTER);
+        personajeBox.setMinWidth(220);
 
-        HBox representacion = new HBox(bp, imagenMapa, enemigos);
-        representacion.setSpacing(20);
-        representacion.setAlignment(Pos.CENTER_RIGHT);
-        this.sceneStackPane.getChildren().setAll(representacion);
+        HBox representation = new HBox(40,personajeBox, imagenMapa, enemyGridPane);
+        representation.setSpacing(20);
+        representation.setPadding(new Insets(50,0,0,0));
+        representation.setAlignment(Pos.CENTER);
 
+
+        this.sceneStackPane.getChildren().setAll(representation);
         return this.sceneStackPane;
     }
 
@@ -56,23 +60,23 @@ public class SceneZone {
 
     private GridPane gridEnemigos(Mapa mapa) {
         GridPane gridPane = new GridPane();
-        gridPane.setAlignment(Pos.CENTER);
         gridPane.setPadding(new Insets(20));
         gridPane.setHgap(10);
         gridPane.setVgap(10);
 
-        Label labelEnemigos = new Label("Enemigos");
+        Label labelEnemigos = new Label("Enemies");
         labelEnemigos.setStyle("-fx-font-size: 24px;");
         gridPane.add(labelEnemigos, 0, 1);
 
-        actualizarEnemyImageViews(mapa, gridPane);
+        updateEnemyImageViews(mapa, gridPane);
         return gridPane;
     }
 
-    private void actualizarEnemyImageViews(Mapa mapa, GridPane gridPane) {
+    private void updateEnemyImageViews(Mapa mapa, GridPane gridPane) {
         enemyImageViews.clear();
         enemyTooltip.clear();
-        gridPane.getChildren().clear();
+        gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) >= 2);
+
 
         for (var enemigo : mapa.getEnemigos()) {
             ImageView imageView = cargarImagen("/images/" + enemigo.getNombre() + ".jpg", 300, 175);
@@ -120,6 +124,6 @@ public class SceneZone {
         imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/" + mapa.getImagen()))));
 
         // Actualiza los enemigos
-        actualizarEnemyImageViews(mapa, gridPaneEnemigos);
+        updateEnemyImageViews(mapa, gridPaneEnemigos);
     }
 }
