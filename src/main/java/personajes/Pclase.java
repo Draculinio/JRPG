@@ -1,9 +1,9 @@
 package personajes;
 
 public enum Pclase {
-    GUERRERO(4,9,3,6, 80,120),
-    MAGO(2,7,5,8, 50, 100),
-    CAZADOR(5,8,2,6, 60, 150),
+    WARRIOR(4,9,3,6, 80,120),
+    WIZARD(2,7,5,8, 50, 100),
+    HUNTER(5,8,2,6, 60, 150),
     ;
 
     private int fuerzaMin;

@@ -15,7 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import personajes.Personaje;
+import personajes.Character;
 
 import java.io.InputStream;
 import java.util.*;
@@ -35,7 +35,7 @@ public class InitialForm {
         this.ivPersonaje.setPreserveRatio(true);
 
     }
-    public Scene pantallaFormulario(Stage primaryStage) {
+    public Scene selectCharacterScene(Stage primaryStage) {
         StackPane form = formulario();
         StackPane logotipo = logotipo();
         VBox root = new VBox(logotipo, form);
@@ -44,8 +44,8 @@ public class InitialForm {
         Node node = form.lookup("#iniciarJuego");
         if(node instanceof Button initGameButton){
             initGameButton.setOnAction(_ -> {
-                Escenario escenario = new Escenario(new Personaje(nombreTextField.getText(), claseComboBox.getValue(), razaComboBox.getValue(), sexoComboBox.getValue()));
-                primaryStage.setScene(escenario.principalSceneCreation(primaryStage));
+                GameScenario gameScenario = new GameScenario(new Character(nombreTextField.getText(), claseComboBox.getValue(), razaComboBox.getValue(), sexoComboBox.getValue()));
+                primaryStage.setScene(gameScenario.principalSceneCreation(primaryStage));
             });
         }
         node = form.lookup("#raza");
@@ -95,33 +95,33 @@ public class InitialForm {
                 "-fx-background-color: white;");
 
         List<String> nombresDefault = Arrays.asList("Rigoberto", "Camila", "Sofía", "David");
-        Label nombreLabel = new Label("Nombre:");
+        Label nombreLabel = new Label("Name:");
         nombreLabel.setStyle("-fx-font-size: 20px;");
         this.nombreTextField = new TextField(nombresDefault.get(Dados.dado(0, nombresDefault.size() - 1)));
         this.nombreTextField.setStyle("-fx-font-size: 16px;");
-        Label claseLabel = new Label("Clase:");
+        Label claseLabel = new Label("Class:");
         claseLabel.setStyle("-fx-font-size: 20px;");
-        ObservableList<String> clases = FXCollections.observableArrayList("Guerrero", "Mago", "Cazador");
+        ObservableList<String> clases = FXCollections.observableArrayList("Warrior", "Wizard", "Hunter");
         this.claseComboBox = new ComboBox<>(clases);
         this.claseComboBox.setId("clase");
         this.claseComboBox.setStyle("-fx-font-size: 16px;");
-        this.claseComboBox.setValue("Guerrero");
-        Label razaLabel = new Label("Raza:");
+        this.claseComboBox.setValue("Warrior");
+        Label razaLabel = new Label("Race:");
         razaLabel.setStyle("-fx-font-size: 20px;");
-        ObservableList<String> razas = FXCollections.observableArrayList("Humano", "Elfo", "Hobbit", "Semielfo");
+        ObservableList<String> razas = FXCollections.observableArrayList("Human", "Elf", "Hobbit", "Halfelf");
         this.razaComboBox = new ComboBox<>(razas);
         this.razaComboBox.setId("raza");
         this.razaComboBox.setStyle("-fx-font-size: 16px;");
-        this.razaComboBox.setValue("Humano");
-        Label sexoLabel = new Label("Sexo:");
+        this.razaComboBox.setValue("Human");
+        Label sexoLabel = new Label("Sex:");
         sexoLabel.setStyle("-fx-font-size: 20px;");
-        ObservableList<String> sexos = FXCollections.observableArrayList("Hombre", "Mujer");
+        ObservableList<String> sexos = FXCollections.observableArrayList("Man", "Woman");
         this.sexoComboBox = new ComboBox<>(sexos);
         this.sexoComboBox.setId("sexo");
         this.sexoComboBox.setStyle("-fx-font-size: 16px;");
-        this.sexoComboBox.setValue("Hombre");
+        this.sexoComboBox.setValue("Man");
 
-        Button iniciarJuego = new Button("Iniciar Juego");
+        Button iniciarJuego = new Button("Start Game");
         iniciarJuego.setStyle("-fx-font-size: 16px;");
         iniciarJuego.setId("iniciarJuego");
 
@@ -157,7 +157,7 @@ public class InitialForm {
 
 
     private ImageView player(){
-        this.personajeImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/guerrero_humano_hombre.jpg")));
+        this.personajeImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/warrior_human_man.jpg")));
         ivPersonaje.setImage(this.personajeImage);
         return ivPersonaje;
     }

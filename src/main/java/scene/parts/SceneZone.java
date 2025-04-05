@@ -49,8 +49,8 @@ public class SceneZone {
     }
 
     private ImageView botonPersonaje(Mapa mapa) {
-        String rutaImagen = "/images/" + mapa.getPersonaje().getClase() + "_" +
-                mapa.getPersonaje().getRaza() + "_" + mapa.getPersonaje().getSexo() + ".jpg";
+        String rutaImagen = "/images/" + mapa.getCharacter().getClase() + "_" +
+                mapa.getCharacter().getRaza() + "_" + mapa.getCharacter().getSexo() + ".jpg";
         return cargarImagen(rutaImagen, 200, 117);
     }
 

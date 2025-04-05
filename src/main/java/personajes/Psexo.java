@@ -1,8 +1,8 @@
 package personajes;
 
 public enum Psexo {
-    HOMBRE(1,0,60),
-    MUJER(0,1,70),;
+    MAN(1,0,60),
+    WOMAN(0,1,70),;
 
     private int fuerza;
     private int defensa;

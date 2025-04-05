@@ -33,12 +33,12 @@ public class CambiaMapas {
             for(int i = 0; i< mapa.getEnemigos().size(); i++){
                 Enemigo e = mapa.getEnemigos().get(i);
                 if(e.getNombre().equals(comando[1].toUpperCase())){
-                    int ataque = mapa.getPersonaje().atacar(e);
+                    int ataque = mapa.getCharacter().atacar(e);
                     mapa.setMensaje("Atacas a " + comando[1] +" por "+ ataque);
                     e.setVida(e.getVida()-ataque);
                     if (e.getVida()<=0){
-                        mapa.getPersonaje().setOro(e.getOro());
-                        mapa.getPersonaje().addExperiencia(e.getExperiencia());
+                        mapa.getCharacter().setOro(e.getOro());
+                        mapa.getCharacter().addExperiencia(e.getExperiencia());
                         mapa.getEnemigos().remove(e);
                         mapa.setMensaje(mapa.getMensaje()+ "\n" + comando[1] + " muere");
                     }
@@ -61,9 +61,9 @@ public class CambiaMapas {
     }
 
     public Mapa recibirAtaque(Mapa mapa){
-        int defensa = mapa.getPersonaje().getDefensa();
+        int defensa = mapa.getCharacter().getDefensa();
         for(Enemigo enemigo: mapa.getEnemigos()){
-            mapa.getPersonaje().setVida(mapa.getPersonaje().getVida()-(enemigo.getFuerza()-defensa));
+            mapa.getCharacter().setVida(mapa.getCharacter().getVida()-(enemigo.getFuerza()-defensa));
             mapa.setMensaje(mapa.getMensaje()+enemigo.getNombre()+" te ha golpeado por "+enemigo.getFuerza()+"\n");
         }
         return mapa;

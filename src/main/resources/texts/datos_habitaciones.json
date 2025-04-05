@@ -18,6 +18,13 @@
     "description": "The East Stone Path stretches before you, a winding trail promising to lead you to the heart of\n the city. The stones, worn by time and the passage of countless travelers, gleam with a soft golden light\n under the sun. On either side of the path, green and flowery fields extend as far as the eye can see, dotted with small red-roofed\n houses that seem to greet the traveler. In the distance, you can glimpse another stone path, a twin that joins this one in the\n city center, creating a network of trails that invite exploration. The air is filled with\n the song of birds and the buzz of insects, creating a natural symphony that accompanies you on your journey.",
     "nombre": "Camino de Piedra Este",
     "name": "East Stone Path",
-    "image": "portico.jpg"
+    "image": "camino_de_piedra_este.jpg"
+  },
+  "4": {
+    "descripcion": "El Camino de Piedra Este, después de serpentear entre campos y colinas, finalmente te conduce a\n la entrada bulliciosa del centro del pueblo. Las piedras bajo tus pies se sienten más lisas, pulidas por\n el constante tránsito de gente y carros. A ambos lados, las casas rurales dan paso a edificaciones más juntas y elaboradas, mostrando\n los primeros indicios de la actividad comercial y social del núcleo urbano. Puedes escuchar el murmullo creciente de voces,\n el ocasional relincho de un caballo y el sonido distante de algún artesano trabajando.\n El camino se ensancha ligeramente al acercarse a lo que parece ser una plaza o un punto de encuentro principal,\n donde la vida del pueblo se despliega ante tus ojos.",
+    "description": "The East Stone Path, after winding through fields and hills, finally leads you to the bustling\n entrance of the town center. The stones beneath your feet feel smoother, polished by the constant passage\n of people and carts. On either side, the rural houses give way to closer and more elaborate buildings, showing the first signs of the\n commercial and social activity of the urban core. You can hear the growing murmur of voices, the occasional neigh of a horse,\n and the distant sound of a craftsman at work. The path widens slightly as it approaches what appears to be a plaza or main meeting point, where the life of the town unfolds before your eyes.",
+    "nombre": "Camino de Piedra Este",
+    "name": "East Stone Path",
+    "image": "camino_de_piedra_centro.jpg"
   }
 }

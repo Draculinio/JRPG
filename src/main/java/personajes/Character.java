@@ -3,7 +3,8 @@ package personajes;
 import elementosRoleros.Dados;
 import lombok.Getter;
 
-public class Personaje {
+public class Character {
+    @Getter
     private String nombre;
     private int ataque;
     @Getter
@@ -24,7 +25,7 @@ public class Personaje {
     private Psexo sexo;
     private Armas brazo_derecho;
 
-    public Personaje(String nombre, String clase, String raza, String sexo){
+    public Character(String nombre, String clase, String raza, String sexo){
         this.clase = Pclase.valueOf(clase.toUpperCase());
         this.raza = Praza.valueOf(raza.toUpperCase());
         this.sexo = Psexo.valueOf(sexo.toUpperCase());

@@ -15,7 +15,7 @@ public class CharacterZone {
         rectangle.setFill(Color.WHITE);
         rectangle.setStroke(Color.BLACK);
         Label label = new Label();
-        label.setText(mapa.getPersonaje().personajeFormateado());
+        label.setText(mapa.getCharacter().personajeFormateado());
         label.setAlignment(Pos.CENTER);
         label.setStyle("-fx-font-size: 18px;");
         return new StackPane(rectangle,label);

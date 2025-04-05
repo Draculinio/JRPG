@@ -15,7 +15,7 @@ public class Main extends  Application{
     public void start(Stage primaryStage) throws Exception {
         try {
             InitialForm initialForm = new InitialForm();
-            Scene scene = initialForm.pantallaFormulario(primaryStage);
+            Scene scene = initialForm.selectCharacterScene(primaryStage);
             primaryStage.setScene(scene);
             primaryStage.setTitle("JavaQuest");
             Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/logo1.jpg")));

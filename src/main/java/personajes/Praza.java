@@ -1,10 +1,10 @@
 package personajes;
 
 public enum Praza {
-    HUMANO(0,0,20),
-    ELFO(-1,-1,100),
+    HUMAN(0,0,20),
+    ELF(-1,-1,100),
     HOBBIT(1,0,35),
-    SEMIELFO(0,1,80);
+    HALFELF(0,1,80);
 
     private int fuerza;
     private int defensa;

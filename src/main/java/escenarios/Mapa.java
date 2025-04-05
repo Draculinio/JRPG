@@ -2,10 +2,9 @@ package escenarios;
 
 import elementosRoleros.ObtenerDatos;
 import lombok.Getter;
-import lombok.Setter;
 import org.json.JSONObject;
 import personajes.Enemigo;
-import personajes.Personaje;
+import personajes.Character;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +21,11 @@ public class Mapa {
     @Getter
     private String imagen;
     @Getter
-    private Personaje personaje;
+    private Character character;
     @Getter
     private String mensaje;
 
-    public Mapa(String mapaID, Personaje personaje){
+    public Mapa(String mapaID, Character character){
         this.mapaID = mapaID;
         this.conexiones = new ArrayList<>();
         this.enemigos = new ArrayList<>();
@@ -36,7 +35,7 @@ public class Mapa {
         this.descripcion = habitacion.getString("descripcion");
         this.nombre = habitacion.getString("nombre");
         this.imagen = habitacion.getString("image");
-        this.personaje = personaje;
+        this.character = character;
         this.mensaje = "";
     }
 
