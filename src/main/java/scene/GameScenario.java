@@ -74,6 +74,7 @@ public class GameScenario {
                 if(!this.mapaActual.getEnemigos().isEmpty()){
                     CambiaMapas cm = new CambiaMapas();
                     this.mapaActual = cm.recibirAtaque(this.mapaActual);
+                    Platform.runLater(() -> this.characterZone.updateCharacterZone(this.mapaActual));
                     if(this.mapaActual.getCharacter().getVida()<1){
                         GameOverScene gos = new GameOverScene(primaryStage);
                         try {

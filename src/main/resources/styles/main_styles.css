@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'shadowedGermanica';
+    src: url('/fonts/Shadowed_Germanica.ttf');
+}
+
+.root {
+    -fx-font-family: 'shadowedGermanica';
+}

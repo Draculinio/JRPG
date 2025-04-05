@@ -73,6 +73,7 @@ public class InitialForm {
         }
 
         Scene scene = new Scene(root, 800, 600);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/main_styles.css")).toExternalForm());
         primaryStage.setScene(scene);
         return scene;
     }
