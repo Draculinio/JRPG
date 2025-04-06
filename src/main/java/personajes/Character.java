@@ -1,6 +1,6 @@
 package personajes;
 
-import elementosRoleros.Dados;
+import elementosRoleros.Dices;
 import lombok.Getter;
 
 public class Character {
@@ -30,9 +30,9 @@ public class Character {
         this.raza = Praza.valueOf(raza.toUpperCase());
         this.sexo = Psexo.valueOf(sexo.toUpperCase());
         this.nombre = nombre;
-        this.ataque = Dados.dado(this.clase.getFuerzaMin(),this.clase.getFuerzaMax()) + this.raza.getFuerza() + this.sexo.getFuerza();
-        this.defensa = Dados.dado(this.clase.getDefensaMin(),this.clase.getDefensaMax()) + this.raza.getDefensa() + this.sexo.getDefensa();
-        this.vida = Dados.dado(this.clase.getVidaMin(),this.clase.getVidaMax()) + this.raza.getVida() + this.sexo.getVida();
+        this.ataque = Dices.dice(this.clase.getFuerzaMin(),this.clase.getFuerzaMax()) + this.raza.getFuerza() + this.sexo.getFuerza();
+        this.defensa = Dices.dice(this.clase.getDefensaMin(),this.clase.getDefensaMax()) + this.raza.getDefensa() + this.sexo.getDefensa();
+        this.vida = Dices.dice(this.clase.getVidaMin(),this.clase.getVidaMax()) + this.raza.getVida() + this.sexo.getVida();
         this.oro = 0;
         this.experiencia = 0;
         this.nivel = 1;
@@ -60,7 +60,7 @@ public class Character {
     }
 
     public int atacar(Enemigo e){
-        int resultado =  this.ataque + this.brazo_derecho.getFuerza() + Dados.dado(1,6) - e.getDefensa();
+        int resultado =  this.ataque + this.brazo_derecho.getFuerza() + Dices.dice(1,6) - e.getDefensa();
         return Math.max(resultado, 0); //TODO: Investigar esto
     }
 

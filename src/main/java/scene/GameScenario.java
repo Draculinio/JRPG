@@ -1,7 +1,7 @@
 package scene;
 import elementosRoleros.CambiaMapas;
 import elementosRoleros.InterpreteComandos;
-import escenarios.Mapa;
+import escenarios.Map;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,11 +24,11 @@ import java.util.List;
 
 public class GameScenario {
     private Character character;
-    private Mapa mapa1;
-    private Mapa mapa2;
-    private Mapa mapa3;
-    private Mapa mapa4;
-    private Mapa mapaActual;
+    private Map map1;
+    private Map map2;
+    private Map map3;
+    private Map map4;
+    private Map mapActual;
     private TextField textField;
     private Label resultadoComando;
     private Scene scene;
@@ -39,63 +39,62 @@ public class GameScenario {
 
     public GameScenario(Character character){
         this.character = character;
-        mapa1 = new Mapa("1", this.character);
-        mapa2 = new Mapa("2", this.character);
-        mapa3 = new Mapa("3", this.character);
-        mapa4 = new Mapa("4", this.character);
-        mapa1.conectar(mapa2);
-        mapa2.conectar(mapa3);
-        mapa3.conectar(mapa4);
+        map1 = new Map("1", this.character);
+        map2 = new Map("2", this.character);
+        map3 = new Map("3", this.character);
+        map4 = new Map("4", this.character);
+        map1.conectar(map2);
+        map2.conectar(map3);
+        map3.conectar(map4);
         List<Enemigo> nuevosEnemigos = new ArrayList<>(Arrays.asList(
                 new Enemigo("ZOMBIE"),
                 new Enemigo("ZOMBIE"),
                 new Enemigo("ZOMBIE"),
                 new Enemigo("ZOMBIE")
         ));
-        mapa1.setEnemigo(nuevosEnemigos);
+        map1.setEnemy(nuevosEnemigos);
         this.sceneZone = new SceneZone();
         this.descriptionZone = new DescriptionZone();
         this.characterZone = new CharacterZone();
         this.commandsZone = new CommandsZone();
-        this.mapaActual = mapa1;
+        this.mapActual = map1;
     }
 
     public Scene principalSceneCreation(Stage primaryStage) throws IOException {
-        descriptionZone.descriptionStackPane(this.mapaActual);
+        descriptionZone.descriptionStackPane(this.mapActual);
         StackPane commands = commandsZone.generateCommandsZone();
         Button enviarComando = (Button) commands.lookup("#sendCommand");
         TextField comando = (TextField) commands.lookup("#command") ;
         comando.setOnAction(event -> {enviarComando.fire();});
         enviarComando.setOnAction(event -> {
             InterpreteComandos ic = new InterpreteComandos();
-            this.mapaActual = ic.manejarInstrucciones(comando.getText(), this.mapaActual);
-            if(comando.getText().toUpperCase().contains("ATACAR")){
-                Platform.runLater(() -> this.sceneZone.actualizarZonaEscena(this.mapaActual));
-                if(!this.mapaActual.getEnemigos().isEmpty()){
+            this.mapActual = ic.manejarInstrucciones(comando.getText(), this.mapActual);
+            if(comando.getText().toUpperCase().contains("ATACAR") || comando.getText().toUpperCase().contains("ATTACK")){
+                Platform.runLater(() -> this.sceneZone.actualizarZonaEscena(this.mapActual));
+                if(!this.mapActual.getEnemigos().isEmpty()){
                     CambiaMapas cm = new CambiaMapas();
-                    this.mapaActual = cm.recibirAtaque(this.mapaActual);
-                    Platform.runLater(() -> this.characterZone.updateCharacterZone(this.mapaActual));
-                    if(this.mapaActual.getCharacter().getVida()<1){
+                    this.mapActual = cm.recibirAtaque(this.mapActual);
+                    Platform.runLater(() -> this.characterZone.updateCharacterZone(this.mapActual));
+                    if(this.mapActual.getCharacter().getVida()<1){
                         GameOverScene gos = new GameOverScene(primaryStage);
                         try {
-                            primaryStage.setScene(gos.gameOverScene(this.mapaActual));
+                            primaryStage.setScene(gos.gameOverScene(this.mapActual));
                             primaryStage.centerOnScreen();
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        //primaryStage.setMaximized(true);
                         primaryStage.show();
                     }
                 }
             }
-            if(comando.getText().toUpperCase().contains("IR")){
-                this.sceneZone.actualizarZonaEscena(this.mapaActual);
-                this.descriptionZone.updateDescriptionZone(this.mapaActual);
+            if(comando.getText().toUpperCase().contains("IR") || comando.getText().toUpperCase().contains("IR")){
+                this.sceneZone.actualizarZonaEscena(this.mapActual);
+                this.descriptionZone.updateDescriptionZone(this.mapActual);
             }
-            commandsZone.updateResult(this.mapaActual.getMensaje());
+            commandsZone.updateResult(this.mapActual.getMensaje());
 
         });
-        VBox root = new VBox(this.characterZone.generateCharacterZone(this.mapaActual), this.sceneZone.generateSceneStackPane(this.mapaActual), this.descriptionZone.descriptionStackPane(this.mapaActual), commands);
+        VBox root = new VBox(this.characterZone.generateCharacterZone(this.mapActual), this.sceneZone.generateSceneStackPane(this.mapActual), this.descriptionZone.descriptionStackPane(this.mapActual), commands);
         root.setSpacing(10);
         this.scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);

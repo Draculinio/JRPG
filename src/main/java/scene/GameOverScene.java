@@ -1,6 +1,6 @@
 package scene;
 
-import escenarios.Mapa;
+import escenarios.Map;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -26,18 +26,18 @@ public class GameOverScene {
         this.primaryStage = primaryStage;
     }
 
-    public Scene gameOverScene(Mapa mapa) throws IOException {
+    public Scene gameOverScene(Map map) throws IOException {
         GridPane finalStatsGrid = new GridPane();
         Label character_name_title = new Label("Name: ");
-        Label character_name = new Label(mapa.getCharacter().getNombre());
+        Label character_name = new Label(map.getCharacter().getNombre());
         Label character_class_title = new Label("Class: ");
-        Label character_class = new Label(mapa.getCharacter().getClase().toString());
+        Label character_class = new Label(map.getCharacter().getClase().toString());
         Label character_level_title = new Label("Level: ");
-        Label character_level = new Label(Integer.toString(mapa.getCharacter().getNivel()));
-        Label character_race = new Label(mapa.getCharacter().getRaza().toString());
+        Label character_level = new Label(Integer.toString(map.getCharacter().getNivel()));
+        Label character_race = new Label(map.getCharacter().getRaza().toString());
         Label character_race_title = new Label("Race: ");
         Label character_sex_title = new Label("Sex: ");
-        Label character_sex = new Label(mapa.getCharacter().getSexo().toString());
+        Label character_sex = new Label(map.getCharacter().getSexo().toString());
 
         InputStream statsStream = getClass().getResourceAsStream("/fonts/Achafexp.ttf");
         Font statsFont = Font.loadFont(statsStream, 32);

@@ -27,7 +27,7 @@ La idea es también en lo posible usar solo Java (para el manejo de librerias us
 
 ## Sobre el mundo de Java
 
-![Mapa de la ciudad de ArrayList](mapa.png)
+![Mapa de la ciudad de ArrayList](map.png)
 
 ## Comandos implementados:
 

@@ -1,35 +1,35 @@
 package elementosRoleros;
 
-import escenarios.Mapa;
-import personajes.Enemigo;
-
-import java.util.ArrayList;
+import escenarios.Map;
 
 public class InterpreteComandos {
 
-    public Mapa manejarInstrucciones(String instruccion, Mapa mapa){
+    public Map manejarInstrucciones(String instruccion, Map map){
         CambiaMapas cm = new CambiaMapas();
         String[] comando = instruccion.split(" ");
-        Mapa newMapa;
+        Map newMap;
         switch (comando[0].toUpperCase()){
             case "ATACAR":
-                newMapa = cm.atacar(comando, mapa);
+            case "ATTACK":
+                newMap = cm.atacar(comando, map);
                 break;
             case "SALIDAS":
-                newMapa = cm.verSalidas(mapa);
+            case "EXIT":
+                newMap = cm.verSalidas(map);
                 break;
             case "IR":
-                newMapa = cm.ir(comando, mapa);
+            case "GO":
+                newMap = cm.ir(comando, map);
                 break;
             default:
-                newMapa = mapa; //Supongo que hay formas mejores de hacer esto
+                newMap = map; //Supongo que hay formas mejores de hacer esto
         }
-        return newMapa;
+        return newMap;
     }
 
-    public String verSalidas(Mapa mapa){
+    public String verSalidas(Map map){
         StringBuilder retorno = new StringBuilder();
-        for(Mapa conexion : mapa.getConexiones()) {
+        for(Map conexion : map.getConexiones()) {
             retorno.append(conexion.getNombre()).append("\n");
         }
         return retorno.toString();

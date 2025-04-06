@@ -1,6 +1,6 @@
 package scene;
 
-import elementosRoleros.Dados;
+import elementosRoleros.Dices;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -103,7 +103,7 @@ public class InitialForm {
         List<String> nombresDefault = Arrays.asList("Rigoberto", "Camila", "Sofía", "David");
         Label nombreLabel = new Label("Name:");
         nombreLabel.setStyle("-fx-font-size: 20px;");
-        this.nombreTextField = new TextField(nombresDefault.get(Dados.dado(0, nombresDefault.size() - 1)));
+        this.nombreTextField = new TextField(nombresDefault.get(Dices.dice(0, nombresDefault.size() - 1)));
         this.nombreTextField.setStyle("-fx-font-size: 16px;");
         Label claseLabel = new Label("Class:");
         claseLabel.setStyle("-fx-font-size: 20px;");

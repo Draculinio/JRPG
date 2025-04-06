@@ -9,13 +9,13 @@ import personajes.Character;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mapa {
+public class Map {
     private String mapaID;
     @Getter
     private String nombre;
     @Getter
     private String descripcion;
-    private List<Mapa> conexiones;
+    private List<Map> conexiones;
     @Getter
     private List<Enemigo> enemigos;
     @Getter
@@ -25,7 +25,7 @@ public class Mapa {
     @Getter
     private String mensaje;
 
-    public Mapa(String mapaID, Character character){
+    public Map(String mapaID, Character character){
         this.mapaID = mapaID;
         this.conexiones = new ArrayList<>();
         this.enemigos = new ArrayList<>();
@@ -39,24 +39,24 @@ public class Mapa {
         this.mensaje = "";
     }
 
-    public List<Mapa> getConexiones(){
+    public List<Map> getConexiones(){
         return conexiones;
     }
 
-    public void conectar(Mapa otroMapa){
-        this.conexiones.add(otroMapa);
-        otroMapa.conexiones.add(this);
+    public void conectar(Map otroMap){
+        this.conexiones.add(otroMap);
+        otroMap.conexiones.add(this);
     }
 
-    public void setEnemigo(Enemigo enemigo){
+    public void setEnemy(Enemigo enemigo){
         this.enemigos.add(enemigo);
     }
 
-    public void setEnemigo(List<Enemigo> nuevosEnemigos){
+    public void setEnemy(List<Enemigo> nuevosEnemigos){
         this.enemigos.addAll(nuevosEnemigos);
     }
 
-    public void setMensaje(String mensaje){
+    public void setMessage(String mensaje){
         this.mensaje = "";
         this.mensaje = mensaje;
     }

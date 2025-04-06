@@ -1,71 +1,71 @@
 package elementosRoleros;
 
-import escenarios.Mapa;
+import escenarios.Map;
 import personajes.Enemigo;
 
 public class CambiaMapas {
 
-    public Mapa ir(String[] comando, Mapa mapa){
+    public Map ir(String[] comando, Map map){
         if (comando.length<2){
-            mapa.setMensaje("Debe indicar adonde quiere ir");
+            map.setMessage("Debe indicar adonde quiere ir");
         }else{
             boolean estado = false;
-            for(int i = 0; i< mapa.getConexiones().size(); i++){
-                Mapa m = mapa.getConexiones().get(i);
+            for(int i = 0; i< map.getConexiones().size(); i++){
+                Map m = map.getConexiones().get(i);
                 if(m.getNombre().equalsIgnoreCase(comando[1])){
                     estado = true;
-                    mapa = m;
-                    mapa.setMensaje(mapa.getMensaje() + "Moviendome a " + mapa.getNombre());
+                    map = m;
+                    map.setMessage(map.getMensaje() + "Moviendome a " + map.getNombre());
                 }
             }
             if(!estado){
-                mapa.setMensaje("No se encontro esa salida");
+                map.setMessage("No se encontro esa salida");
             };
         }
-        return mapa;
+        return map;
     }
 
-    public Mapa atacar(String[] comando, Mapa mapa){
+    public Map atacar(String[] comando, Map map){
         if (comando.length<2){
-            mapa.setMensaje("Debe indicar a quien atacar");
+            map.setMessage("Debe indicar a quien atacar");
         }else{
             boolean estado = false;
-            for(int i = 0; i< mapa.getEnemigos().size(); i++){
-                Enemigo e = mapa.getEnemigos().get(i);
+            for(int i = 0; i< map.getEnemigos().size(); i++){
+                Enemigo e = map.getEnemigos().get(i);
                 if(e.getNombre().equals(comando[1].toUpperCase())){
-                    int ataque = mapa.getCharacter().atacar(e);
-                    mapa.setMensaje("Atacas a " + comando[1] +" por "+ ataque);
+                    int ataque = map.getCharacter().atacar(e);
+                    map.setMessage("Atacas a " + comando[1] +" por "+ ataque);
                     e.setVida(e.getVida()-ataque);
                     if (e.getVida()<=0){
-                        mapa.getCharacter().setOro(e.getOro());
-                        mapa.getCharacter().addExperiencia(e.getExperiencia());
-                        mapa.getEnemigos().remove(e);
-                        mapa.setMensaje(mapa.getMensaje()+ "\n" + comando[1] + " muere");
+                        map.getCharacter().setOro(e.getOro());
+                        map.getCharacter().addExperiencia(e.getExperiencia());
+                        map.getEnemigos().remove(e);
+                        map.setMessage(map.getMensaje()+ "\n" + comando[1] + " muere");
                     }
                     estado = true;
                     break;
                 }
             }
             if(!estado){
-                mapa.setMensaje("\nNo encontre el enemigo.");
+                map.setMessage("\nNo encontre el enemigo.");
             }
         }
-        return mapa;
+        return map;
     }
 
 
-    public Mapa verSalidas(Mapa mapa){
-        mapa.setMensaje("");
-        for(Mapa conexion : mapa.getConexiones()) mapa.setMensaje(mapa.getMensaje() + conexion.getNombre() + "\n");
-        return mapa;
+    public Map verSalidas(Map map){
+        map.setMessage("");
+        for(Map conexion : map.getConexiones()) map.setMessage(map.getMensaje() + conexion.getNombre() + "\n");
+        return map;
     }
 
-    public Mapa recibirAtaque(Mapa mapa){
-        int defensa = mapa.getCharacter().getDefensa();
-        for(Enemigo enemigo: mapa.getEnemigos()){
-            mapa.getCharacter().setVida(mapa.getCharacter().getVida()-(enemigo.getFuerza()-defensa));
-            mapa.setMensaje(mapa.getMensaje()+enemigo.getNombre()+" te ha golpeado por "+enemigo.getFuerza()+"\n");
+    public Map recibirAtaque(Map map){
+        int defensa = map.getCharacter().getDefensa();
+        for(Enemigo enemigo: map.getEnemigos()){
+            map.getCharacter().setVida(map.getCharacter().getVida()-(enemigo.getFuerza()-defensa));
+            map.setMessage(map.getMensaje()+enemigo.getNombre()+" te ha golpeado por "+enemigo.getFuerza()+"\n");
         }
-        return mapa;
+        return map;
     }
 }

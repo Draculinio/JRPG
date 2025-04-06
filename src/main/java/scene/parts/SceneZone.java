@@ -1,6 +1,6 @@
 package scene.parts;
 
-import escenarios.Mapa;
+import escenarios.Map;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -23,10 +23,10 @@ public class SceneZone {
         sceneStackPane = new StackPane();
     }
 
-    public StackPane generateSceneStackPane(Mapa mapa) {
-        Label titulo = new Label(mapa.getNombre());
+    public StackPane generateSceneStackPane(Map map) {
+        Label titulo = new Label(map.getNombre());
         titulo.setStyle("-fx-font-size: 24px;");
-        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/" + mapa.getImagen())));
+        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/" + map.getImagen())));
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(700);
         imageView.setFitHeight(408);
@@ -35,16 +35,11 @@ public class SceneZone {
         StackPane imagenMapa = new StackPane(zonaEscenaVBox);
         StackPane.setAlignment(imagenMapa, Pos.CENTER);
         // Enemigos y personaje
-        GridPane enemyGridPane = gridEnemigos(mapa);
+        GridPane enemyGridPane = gridEnemigos(map);
         enemyGridPane.setPadding(new Insets(0, 0, 0, 20));
-        ImageView bp = botonPersonaje(mapa);
-        VBox personajeBox = new VBox(botonPersonaje(mapa));
-        personajeBox.setAlignment(Pos.CENTER);
-        personajeBox.setMinWidth(220);
-
-        HBox representation = new HBox(40,personajeBox, imagenMapa, enemyGridPane);
+        HBox representation = new HBox(40,imagenMapa, enemyGridPane);
         representation.setSpacing(20);
-        representation.setPadding(new Insets(50,0,0,0));
+        representation.setPadding(new Insets(5,0,0,0));
         representation.setAlignment(Pos.CENTER);
 
 
@@ -52,13 +47,7 @@ public class SceneZone {
         return this.sceneStackPane;
     }
 
-    private ImageView botonPersonaje(Mapa mapa) {
-        String rutaImagen = "/images/" + mapa.getCharacter().getClase() + "_" +
-                mapa.getCharacter().getRaza() + "_" + mapa.getCharacter().getSexo() + ".jpg";
-        return cargarImagen(rutaImagen, 200, 117);
-    }
-
-    private GridPane gridEnemigos(Mapa mapa) {
+    private GridPane gridEnemigos(Map map) {
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(20));
         gridPane.setHgap(10);
@@ -68,17 +57,17 @@ public class SceneZone {
         labelEnemigos.setStyle("-fx-font-size: 24px;");
         gridPane.add(labelEnemigos, 0, 1);
 
-        updateEnemyImageViews(mapa, gridPane);
+        updateEnemyImageViews(map, gridPane);
         return gridPane;
     }
 
-    private void updateEnemyImageViews(Mapa mapa, GridPane gridPane) {
+    private void updateEnemyImageViews(Map map, GridPane gridPane) {
         enemyImageViews.clear();
         enemyTooltip.clear();
         gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) >= 2);
 
 
-        for (var enemigo : mapa.getEnemigos()) {
+        for (var enemigo : map.getEnemigos()) {
             ImageView imageView = cargarImagen("/images/" + enemigo.getNombre() + ".jpg", 300, 175);
             Tooltip tooltip = new Tooltip(enemigo.getNombre());
             Tooltip.install(imageView, tooltip);
@@ -114,16 +103,16 @@ public class SceneZone {
         imageView.setPreserveRatio(true);
     }
 
-    public void actualizarZonaEscena(Mapa mapa) {
+    public void actualizarZonaEscena(Map map) {
         HBox representacion = (HBox) this.sceneStackPane.getChildren().get(0);
         StackPane imagenMapa = (StackPane) representacion.getChildren().get(1);
         GridPane gridPaneEnemigos = (GridPane) representacion.getChildren().get(2);
 
         // Actualiza la imagen del mapa
         ImageView imageView = (ImageView) ((VBox) imagenMapa.getChildren().getFirst()).getChildren().get(1);
-        imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/" + mapa.getImagen()))));
+        imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/" + map.getImagen()))));
 
         // Actualiza los enemigos
-        updateEnemyImageViews(mapa, gridPaneEnemigos);
+        updateEnemyImageViews(map, gridPaneEnemigos);
     }
 }

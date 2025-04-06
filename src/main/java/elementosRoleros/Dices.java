@@ -2,8 +2,8 @@ package elementosRoleros;
 
 import java.util.Random;
 
-public class Dados {
-    public static int dado(int min, int max){
+public class Dices {
+    public static int dice(int min, int max){
         Random random = new Random();
         return random.nextInt(max - min + 1) + min;
     }
