@@ -5,7 +5,7 @@ import escenarios.Map;
 public class InterpreteComandos {
 
     public Map manejarInstrucciones(String instruccion, Map map){
-        CambiaMapas cm = new CambiaMapas();
+        MapChanger cm = new MapChanger();
         String[] comando = instruccion.split(" ");
         Map newMap;
         switch (comando[0].toUpperCase()){
@@ -30,7 +30,7 @@ public class InterpreteComandos {
     public String verSalidas(Map map){
         StringBuilder retorno = new StringBuilder();
         for(Map conexion : map.getConexiones()) {
-            retorno.append(conexion.getNombre()).append("\n");
+            retorno.append(conexion.getName()).append("\n");
         }
         return retorno.toString();
     }

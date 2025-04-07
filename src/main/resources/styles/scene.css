@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'shadowedGermanica';
+    src: url('/fonts/Shadowed_Germanica.ttf');
+}
+
+.action_button {
+    -fx-font-family: 'shadowedGermanica';
+    -fx-font-size: 32;
+}

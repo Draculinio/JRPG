@@ -12,9 +12,10 @@ import java.util.List;
 public class Map {
     private String mapaID;
     @Getter
-    private String nombre;
+    private String name;
     @Getter
     private String descripcion;
+    @Getter
     private List<Map> conexiones;
     @Getter
     private List<Enemigo> enemigos;
@@ -33,14 +34,10 @@ public class Map {
         JSONObject habitaciones = od.cargarHabitaciones("datos_habitaciones");
         JSONObject habitacion = habitaciones.getJSONObject(this.mapaID);
         this.descripcion = habitacion.getString("descripcion");
-        this.nombre = habitacion.getString("nombre");
+        this.name = habitacion.getString("nombre");
         this.imagen = habitacion.getString("image");
         this.character = character;
         this.mensaje = "";
-    }
-
-    public List<Map> getConexiones(){
-        return conexiones;
     }
 
     public void conectar(Map otroMap){

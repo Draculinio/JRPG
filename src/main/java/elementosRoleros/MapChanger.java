@@ -3,7 +3,7 @@ package elementosRoleros;
 import escenarios.Map;
 import personajes.Enemigo;
 
-public class CambiaMapas {
+public class MapChanger {
 
     public Map ir(String[] comando, Map map){
         if (comando.length<2){
@@ -12,10 +12,10 @@ public class CambiaMapas {
             boolean estado = false;
             for(int i = 0; i< map.getConexiones().size(); i++){
                 Map m = map.getConexiones().get(i);
-                if(m.getNombre().equalsIgnoreCase(comando[1])){
+                if(m.getName().equalsIgnoreCase(comando[1])){
                     estado = true;
                     map = m;
-                    map.setMessage(map.getMensaje() + "Moviendome a " + map.getNombre());
+                    map.setMessage(map.getMensaje() + "Moviendome a " + map.getName());
                 }
             }
             if(!estado){
@@ -56,7 +56,7 @@ public class CambiaMapas {
 
     public Map verSalidas(Map map){
         map.setMessage("");
-        for(Map conexion : map.getConexiones()) map.setMessage(map.getMensaje() + conexion.getNombre() + "\n");
+        for(Map conexion : map.getConexiones()) map.setMessage(map.getMensaje() + conexion.getName() + "\n");
         return map;
     }
 

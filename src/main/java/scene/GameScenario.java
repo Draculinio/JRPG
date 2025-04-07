@@ -1,5 +1,5 @@
 package scene;
-import elementosRoleros.CambiaMapas;
+import elementosRoleros.MapChanger;
 import elementosRoleros.InterpreteComandos;
 import escenarios.Map;
 import javafx.application.Platform;
@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class GameScenario {
     private Character character;
@@ -61,10 +62,33 @@ public class GameScenario {
     }
 
     public Scene principalSceneCreation(Stage primaryStage) throws IOException {
+        StackPane scenePane = this.sceneZone.generateSceneStackPane(this.mapActual);
+        Button attackCommand = (Button) scenePane.lookup("#attackButton");
+        attackCommand.setOnAction(actionEvent -> {
+            InterpreteComandos ic = new InterpreteComandos();
+            this.mapActual = ic.manejarInstrucciones("attack "+this.mapActual.getEnemigos().getFirst().getNombre(), this.mapActual);
+            Platform.runLater(() -> this.sceneZone.actualizarZonaEscena(this.mapActual));
+            if(!this.mapActual.getEnemigos().isEmpty()){
+                MapChanger cm = new MapChanger();
+                this.mapActual = cm.recibirAtaque(this.mapActual);
+                Platform.runLater(() -> this.characterZone.updateCharacterZone(this.mapActual));
+                if(this.mapActual.getCharacter().getVida()<1){
+                    GameOverScene gos = new GameOverScene(primaryStage);
+                    try {
+                        primaryStage.setScene(gos.gameOverScene(this.mapActual));
+                        primaryStage.centerOnScreen();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    primaryStage.show();
+                }
+            }
+        });
         descriptionZone.descriptionStackPane(this.mapActual);
         StackPane commands = commandsZone.generateCommandsZone();
         Button enviarComando = (Button) commands.lookup("#sendCommand");
         TextField comando = (TextField) commands.lookup("#command") ;
+
         comando.setOnAction(event -> {enviarComando.fire();});
         enviarComando.setOnAction(event -> {
             InterpreteComandos ic = new InterpreteComandos();
@@ -72,7 +96,7 @@ public class GameScenario {
             if(comando.getText().toUpperCase().contains("ATACAR") || comando.getText().toUpperCase().contains("ATTACK")){
                 Platform.runLater(() -> this.sceneZone.actualizarZonaEscena(this.mapActual));
                 if(!this.mapActual.getEnemigos().isEmpty()){
-                    CambiaMapas cm = new CambiaMapas();
+                    MapChanger cm = new MapChanger();
                     this.mapActual = cm.recibirAtaque(this.mapActual);
                     Platform.runLater(() -> this.characterZone.updateCharacterZone(this.mapActual));
                     if(this.mapActual.getCharacter().getVida()<1){
@@ -87,18 +111,20 @@ public class GameScenario {
                     }
                 }
             }
-            if(comando.getText().toUpperCase().contains("IR") || comando.getText().toUpperCase().contains("IR")){
+            if(comando.getText().toUpperCase().contains("IR") || comando.getText().toUpperCase().contains("GO")){
                 this.sceneZone.actualizarZonaEscena(this.mapActual);
                 this.descriptionZone.updateDescriptionZone(this.mapActual);
+                this.characterZone.updateMapZone(this.mapActual);
             }
             commandsZone.updateResult(this.mapActual.getMensaje());
 
         });
-        VBox root = new VBox(this.characterZone.generateCharacterZone(this.mapActual), this.sceneZone.generateSceneStackPane(this.mapActual), this.descriptionZone.descriptionStackPane(this.mapActual), commands);
+        VBox root = new VBox(this.characterZone.generateCharacterZone(this.mapActual), scenePane, this.descriptionZone.descriptionStackPane(this.mapActual), commands);
         root.setSpacing(10);
         this.scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
+        this.scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/scene.css")).toExternalForm());
         return this.scene;
     }
 }
