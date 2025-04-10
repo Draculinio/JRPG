@@ -6,6 +6,9 @@ import personajes.Enemigo;
 public class MapChanger {
 
     public Map ir(String[] comando, Map map){
+        if(comando[1].equalsIgnoreCase("Casa") ){
+            System.out.println("Estoy");
+        }
         if (comando.length<2){
             map.setMessage("Debe indicar adonde quiere ir");
         }else{
@@ -34,13 +37,13 @@ public class MapChanger {
                 Enemigo e = map.getEnemigos().get(i);
                 if(e.getNombre().equals(comando[1].toUpperCase())){
                     int ataque = map.getCharacter().atacar(e);
-                    map.setMessage("Atacas a " + comando[1] +" por "+ ataque);
+                    map.setMessage("You attacked " + comando[1] +" and made "+ ataque + " damage\n");
                     e.setVida(e.getVida()-ataque);
                     if (e.getVida()<=0){
                         map.getCharacter().setOro(e.getOro());
                         map.getCharacter().addExperiencia(e.getExperiencia());
                         map.getEnemigos().remove(e);
-                        map.setMessage(map.getMensaje()+ "\n" + comando[1] + " muere");
+                        map.setMessage(map.getMensaje()+ "\n" + comando[1] + " dies\n");
                     }
                     estado = true;
                     break;
@@ -63,8 +66,13 @@ public class MapChanger {
     public Map recibirAtaque(Map map){
         int defensa = map.getCharacter().getDefensa();
         for(Enemigo enemigo: map.getEnemigos()){
-            map.getCharacter().setVida(map.getCharacter().getVida()-(enemigo.getFuerza()-defensa));
-            map.setMessage(map.getMensaje()+enemigo.getNombre()+" te ha golpeado por "+enemigo.getFuerza()+"\n");
+            int attackResult = enemigo.getFuerza()-defensa;
+            if(attackResult>0){
+                map.getCharacter().setVida(map.getCharacter().getVida()-(enemigo.getFuerza()-defensa));
+                map.setMessage("\n"+map.getMensaje()+enemigo.getNombre()+" hits you by "+attackResult);
+            }else{
+                map.setMessage(map.getMensaje()+enemigo.getNombre()+" attacks you but does not make any damage\n");
+            }
         }
         return map;
     }

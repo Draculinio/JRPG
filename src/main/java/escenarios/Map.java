@@ -54,7 +54,10 @@ public class Map {
     }
 
     public void setMessage(String mensaje){
-        this.mensaje = "";
         this.mensaje = mensaje;
+    }
+
+    public void clearMessage(){
+        this.mensaje = "";
     }
 }

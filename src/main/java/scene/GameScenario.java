@@ -1,4 +1,5 @@
 package scene;
+import design.Design;
 import elementosRoleros.MapChanger;
 import elementosRoleros.InterpreteComandos;
 import escenarios.Map;
@@ -18,10 +19,8 @@ import scene.parts.DescriptionZone;
 import scene.parts.SceneZone;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class GameScenario {
     private Character character;
@@ -37,7 +36,9 @@ public class GameScenario {
     private DescriptionZone descriptionZone;
     private CharacterZone characterZone;
     private CommandsZone commandsZone;
-
+    private StackPane scenePane;
+    private VBox root;
+    private StackPane rootContent;
     public GameScenario(Character character){
         this.character = character;
         map1 = new Map("1", this.character);
@@ -62,27 +63,16 @@ public class GameScenario {
     }
 
     public Scene principalSceneCreation(Stage primaryStage) throws IOException {
-        StackPane scenePane = this.sceneZone.generateSceneStackPane(this.mapActual);
-        Button attackCommand = (Button) scenePane.lookup("#attackButton");
+        this.scenePane = this.sceneZone.generateSceneStackPane(this.mapActual);
+        Button attackCommand = (Button) this.scenePane.lookup("#attackButton");
+        this.configureExitButtons();
         attackCommand.setOnAction(actionEvent -> {
             InterpreteComandos ic = new InterpreteComandos();
             this.mapActual = ic.manejarInstrucciones("attack "+this.mapActual.getEnemigos().getFirst().getNombre(), this.mapActual);
-            Platform.runLater(() -> this.sceneZone.actualizarZonaEscena(this.mapActual));
-            if(!this.mapActual.getEnemigos().isEmpty()){
-                MapChanger cm = new MapChanger();
-                this.mapActual = cm.recibirAtaque(this.mapActual);
-                Platform.runLater(() -> this.characterZone.updateCharacterZone(this.mapActual));
-                if(this.mapActual.getCharacter().getVida()<1){
-                    GameOverScene gos = new GameOverScene(primaryStage);
-                    try {
-                        primaryStage.setScene(gos.gameOverScene(this.mapActual));
-                        primaryStage.centerOnScreen();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    primaryStage.show();
-                }
-            }
+            this.manageAttack();
+            this.evaluateDeath(primaryStage);
+            Platform.runLater(this::configureExitButtons);
+
         });
         descriptionZone.descriptionStackPane(this.mapActual);
         StackPane commands = commandsZone.generateCommandsZone();
@@ -94,37 +84,67 @@ public class GameScenario {
             InterpreteComandos ic = new InterpreteComandos();
             this.mapActual = ic.manejarInstrucciones(comando.getText(), this.mapActual);
             if(comando.getText().toUpperCase().contains("ATACAR") || comando.getText().toUpperCase().contains("ATTACK")){
-                Platform.runLater(() -> this.sceneZone.actualizarZonaEscena(this.mapActual));
-                if(!this.mapActual.getEnemigos().isEmpty()){
-                    MapChanger cm = new MapChanger();
-                    this.mapActual = cm.recibirAtaque(this.mapActual);
-                    Platform.runLater(() -> this.characterZone.updateCharacterZone(this.mapActual));
-                    if(this.mapActual.getCharacter().getVida()<1){
-                        GameOverScene gos = new GameOverScene(primaryStage);
-                        try {
-                            primaryStage.setScene(gos.gameOverScene(this.mapActual));
-                            primaryStage.centerOnScreen();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        primaryStage.show();
-                    }
-                }
+                this.manageAttack();
+                this.evaluateDeath(primaryStage);
             }
             if(comando.getText().toUpperCase().contains("IR") || comando.getText().toUpperCase().contains("GO")){
                 this.sceneZone.actualizarZonaEscena(this.mapActual);
                 this.descriptionZone.updateDescriptionZone(this.mapActual);
                 this.characterZone.updateMapZone(this.mapActual);
+                this.configureExitButtons();
             }
             commandsZone.updateResult(this.mapActual.getMensaje());
 
         });
-        VBox root = new VBox(this.characterZone.generateCharacterZone(this.mapActual), scenePane, this.descriptionZone.descriptionStackPane(this.mapActual), commands);
-        root.setSpacing(10);
-        this.scene = new Scene(root, 800, 600);
+        this.root = new VBox(this.characterZone.generateCharacterZone(this.mapActual), scenePane, this.descriptionZone.descriptionStackPane(this.mapActual), commands);
+        this.root.setSpacing(10);
+        this.rootContent = new StackPane(this.root);
+        this.scene = new Scene(this.rootContent, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         this.scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/scene.css")).toExternalForm());
         return this.scene;
+    }
+
+    private void configureExitButtons(){
+        HashMap<String, Button> botones = sceneZone.getAllButtons();
+        for (Entry<String, Button> entry : botones.entrySet()) {
+            Button exitButton = entry.getValue();
+            exitButton.setOnAction(actionEvent -> {
+                InterpreteComandos ic = new InterpreteComandos();
+                this.mapActual = ic.manejarInstrucciones("ir "+entry.getKey(), this.mapActual);
+                this.sceneZone.actualizarZonaEscena(this.mapActual);
+                this.descriptionZone.updateDescriptionZone(this.mapActual);
+                this.characterZone.updateMapZone(this.mapActual);
+                Design design = new Design();
+                design.showToast(this.mapActual.getMensaje(),this.rootContent);
+                this.configureExitButtons();
+            });
+        }
+    }
+
+    public void manageAttack(){
+        Platform.runLater(() -> this.sceneZone.actualizarZonaEscena(this.mapActual));
+        if(!this.mapActual.getEnemigos().isEmpty()){
+            MapChanger cm = new MapChanger();
+            Design design = new Design();
+            this.mapActual = cm.recibirAtaque(this.mapActual);
+            design.showToast(this.mapActual.getMensaje(),this.rootContent);
+            this.mapActual.clearMessage();
+            Platform.runLater(() -> this.characterZone.updateCharacterZone(this.mapActual));
+        }
+    }
+
+    public void evaluateDeath(Stage primaryStage){
+        if(this.mapActual.getCharacter().getVida()<1){
+            GameOverScene gos = new GameOverScene(primaryStage);
+            try {
+                primaryStage.setScene(gos.gameOverScene(this.mapActual));
+                primaryStage.centerOnScreen();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            primaryStage.show();
+        }
     }
 }

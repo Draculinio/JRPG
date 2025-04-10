@@ -21,6 +21,8 @@ public class SceneZone {
     private final List<Tooltip> enemyTooltip = new ArrayList<>();
     private StackPane sceneStackPane;
     private Button attack;
+    private final HashMap<String, Button> sceneButtons = new HashMap<>();
+
     public SceneZone(){
         sceneStackPane = new StackPane();
     }
@@ -40,7 +42,6 @@ public class SceneZone {
             attack = new Button("ATTACK");
             attack.setId("attackButton");
             attack.getStyleClass().add("action_button");
-            //attack.setStyle(String.valueOf(Objects.requireNonNull(getClass().getResource("/styles/main_styles.css"))));
             actionButtons.add(attack,0,0);
         }
         List<String> map_names = new ArrayList<>();
@@ -49,12 +50,13 @@ public class SceneZone {
         }
         Pair<GridPane, HashMap<String, Button>> exits = this.generateExitButtons(map_names);
         GridPane enemyGridPane = gridEnemigos(map);
+        sceneButtons.putAll(exits.getValue());
+
         enemyGridPane.setPadding(new Insets(0, 0, 0, 20));
         HBox representation = new HBox(40,actionButtons,imagenMapa, enemyGridPane, exits.getKey());
         representation.setSpacing(20);
         representation.setPadding(new Insets(5,0,0,0));
         representation.setAlignment(Pos.CENTER);
-
 
         this.sceneStackPane.getChildren().setAll(representation);
         return this.sceneStackPane;
@@ -78,7 +80,7 @@ public class SceneZone {
 
         for (var enemigo : map.getEnemigos()) {
             ImageView imageView = cargarImagen("/images/" + enemigo.getNombre() + ".jpg", 300, 175);
-            Tooltip tooltip = new Tooltip(enemigo.getNombre());
+            Tooltip tooltip = new Tooltip(enemigo.getNombre()+"\nLife: "+enemigo.getVida());
             Tooltip.install(imageView, tooltip);
 
             enemyImageViews.add(imageView);
@@ -113,16 +115,26 @@ public class SceneZone {
     }
 
     public void actualizarZonaEscena(Map map) {
-        HBox representacion = (HBox) this.sceneStackPane.getChildren().get(0);
+        HBox representacion = (HBox) this.sceneStackPane.getChildren().getFirst();
         StackPane imagenMapa = (StackPane) representacion.getChildren().get(1);
         GridPane gridPaneEnemigos = (GridPane) representacion.getChildren().get(2);
 
         // Actualiza la imagen del mapa
-        ImageView imageView = (ImageView) ((VBox) imagenMapa.getChildren().getFirst()).getChildren().get(1);
+        ImageView imageView = (ImageView) ((VBox) imagenMapa.getChildren().getFirst()).getChildren().getFirst();
         imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/" + map.getImagen()))));
 
         // Actualiza los enemigos
         updateEnemyImageViews(map, gridPaneEnemigos);
+
+        //Actualizo botones de salida
+        List<String> map_names = new ArrayList<>();
+        for(int i=0;i<map.getConexiones().size();i++){
+            map_names.add(map.getConexiones().get(i).getName());
+        }
+        Pair<GridPane, HashMap<String, Button>> exits = this.generateExitButtons(map_names);
+        sceneButtons.clear();
+        sceneButtons.putAll(exits.getValue());
+        representacion.getChildren().set(3, exits.getKey());
     }
 
     public Pair<GridPane, HashMap<String, Button>> generateExitButtons(List<String> exits) {
@@ -137,7 +149,7 @@ public class SceneZone {
         int row = 0;
         for (int i = 0; i < exits.size(); i++) {
             String direccion = exits.get(i);
-            String id = "salida_" + direccion.toLowerCase();
+            String id = direccion.toLowerCase();
 
             Button boton = new Button(direccion);
             boton.setId(id);
@@ -161,6 +173,14 @@ public class SceneZone {
         }
 
         return new Pair<>(grid, botonesPorId);
+    }
+
+    public Button getButtonById(String id) {
+        return sceneButtons.get(id);
+    }
+
+    public HashMap<String, Button> getAllButtons() {
+        return new HashMap<>(sceneButtons);
     }
 
 }
