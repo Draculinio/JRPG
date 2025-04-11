@@ -13,8 +13,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.io.InputStream;
-
 public class CharacterZone {
 
     private ImageView characterButton;
@@ -35,6 +33,7 @@ public class CharacterZone {
         this.characterDataLabel.setAlignment(Pos.CENTER);
         this.characterDataLabel.setStyle("-fx-font-size: 18px;");
         this.characterButton = this.getCharacterButton(map);
+        this.characterButton.setId("imageButton");
         this.mapName.setText("Zone: " + map.getName());
         this.mapName.setStyle("-fx-font-size: 24px;-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 5; -fx-padding: 5;");
         Region spacer = new Region();
@@ -48,9 +47,16 @@ public class CharacterZone {
     }
 
     private ImageView getCharacterButton(Map map) {
-        String rutaImagen = "/images/" + map.getCharacter().getClase() + "_" +
+        String imageAddress = "/images/" + map.getCharacter().getClase() + "_" +
                 map.getCharacter().getRaza() + "_" + map.getCharacter().getSexo() + ".jpg";
-        return cargarImagen(rutaImagen, 200, 117);
+        Image image = new Image(imageAddress);
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(200);
+        imageView.setFitHeight(117);
+        imageView.setPreserveRatio(true);
+        return imageView;
+
+        //return cargarImagen(imageAddress, 200, 117);
     }
 
     public void updateCharacterZone(Map map){
@@ -60,23 +66,4 @@ public class CharacterZone {
     public void updateMapZone(Map map){
         this.mapName.setText(map.getName());
     }
-
-    //TODO: Estos dos proximos metodos tienen un problema. Es una verguenza que esten aca.
-    private ImageView cargarImagen(String ruta, double width, double height) {
-        InputStream stream = getClass().getResourceAsStream(ruta);
-        if (stream == null) {
-            stream = getClass().getResourceAsStream("/images/generica.jpg");
-        }
-        ImageView imageView = new ImageView(new Image(stream));
-        configurarImageView(imageView, width, height);
-        return imageView;
-    }
-
-    private void configurarImageView(ImageView imageView, double width, double height) {
-        imageView.setFitWidth(width);
-        imageView.setFitHeight(height);
-        imageView.setPreserveRatio(true);
-    }
-
-
 }

@@ -4,12 +4,15 @@ import elementosRoleros.MapChanger;
 import elementosRoleros.InterpreteComandos;
 import escenarios.Map;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import personajes.Enemigo;
 import personajes.Character;
@@ -39,6 +42,7 @@ public class GameScenario {
     private StackPane scenePane;
     private VBox root;
     private StackPane rootContent;
+    private StackPane characterPane;
     public GameScenario(Character character){
         this.character = character;
         map1 = new Map("1", this.character);
@@ -65,6 +69,8 @@ public class GameScenario {
     public Scene principalSceneCreation(Stage primaryStage) throws IOException {
         this.scenePane = this.sceneZone.generateSceneStackPane(this.mapActual);
         Button attackCommand = (Button) this.scenePane.lookup("#attackButton");
+        this.characterPane = this.characterZone.generateCharacterZone(this.mapActual);
+        ImageView img = (ImageView) this.characterPane.lookup("#imageButton");
         this.configureExitButtons();
         attackCommand.setOnAction(actionEvent -> {
             InterpreteComandos ic = new InterpreteComandos();
@@ -72,8 +78,13 @@ public class GameScenario {
             this.manageAttack();
             this.evaluateDeath(primaryStage);
             Platform.runLater(this::configureExitButtons);
-
         });
+
+        img.setOnMouseClicked(e->{
+            CharacterInformationZone characterInformationZone = new CharacterInformationZone();
+            characterInformationZone.showInformation(this.mapActual,img);
+        });
+
         descriptionZone.descriptionStackPane(this.mapActual);
         StackPane commands = commandsZone.generateCommandsZone();
         Button enviarComando = (Button) commands.lookup("#sendCommand");
@@ -96,7 +107,7 @@ public class GameScenario {
             commandsZone.updateResult(this.mapActual.getMensaje());
 
         });
-        this.root = new VBox(this.characterZone.generateCharacterZone(this.mapActual), scenePane, this.descriptionZone.descriptionStackPane(this.mapActual), commands);
+        this.root = new VBox(this.characterPane, scenePane, this.descriptionZone.descriptionStackPane(this.mapActual), commands);
         this.root.setSpacing(10);
         this.rootContent = new StackPane(this.root);
         this.scene = new Scene(this.rootContent, 800, 600);
